@@ -1,6 +1,7 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types/navigationTypes";
-import { Button, Dimensions, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH } from "../constants/style";
 
@@ -19,10 +20,9 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       <View style={styles.header}>
         <Text>Login Page</Text>
       </View>
-      <Button
-        title='로그인'
-        onPress={() => navigation.navigate("MainScreen")}
-      />
+      <Button icon='camera' onPress={() => navigation.navigate("MainScreen")}>
+        Press Me
+      </Button>
     </View>
   );
 };
