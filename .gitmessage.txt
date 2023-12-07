@@ -24,4 +24,5 @@
  
 ################
 
+# .gitmessage를 프로젝트에 적용하기
 # git config commit.template .gitmessage.txt
