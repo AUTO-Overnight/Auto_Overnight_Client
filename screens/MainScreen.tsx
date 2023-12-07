@@ -4,6 +4,7 @@ import { StyleSheet, View } from "react-native";
 import { Appbar } from "react-native-paper";
 import { SCREEN_WIDTH } from "../constants/style";
 import { Calendar } from "react-native-calendars";
+import { useState } from "react";
 
 type MainScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -15,14 +16,23 @@ type MainProps = {
 };
 
 const MainScreen: React.FC<MainProps> = ({ navigation }) => {
-  const _handleMode = () => console.log("Dark Mode");
+  const [mode, setMode] = useState<
+    "white-balance-sunny" | "moon-waxing-crescent"
+  >("white-balance-sunny");
+  const _handleMode = () => {
+    setMode(
+      mode === "white-balance-sunny"
+        ? "moon-waxing-crescent"
+        : "white-balance-sunny"
+    );
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Appbar.Header>
           <Appbar.Content title='외박 신청' />
-          <Appbar.Action icon='white-balance-sunny' onPress={_handleMode} />
+          <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
       </View>
       <View style={styles.content}>
