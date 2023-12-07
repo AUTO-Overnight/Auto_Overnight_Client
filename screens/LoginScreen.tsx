@@ -1,7 +1,8 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types/navigationTypes";
-import { Button, Text, View } from "react-native";
+import { Button, Dimensions, Text, View } from "react-native";
 import { StyleSheet } from "react-native";
+import { SCREEN_WIDTH } from "../constants/style";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -15,9 +16,11 @@ type LoginProps = {
 const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Login Page</Text>
+      <View style={styles.header}>
+        <Text>Login Page</Text>
+      </View>
       <Button
-        title='Go to Home'
+        title='로그인'
         onPress={() => navigation.navigate("MainScreen")}
       />
     </View>
@@ -29,8 +32,13 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "blue",
+    backgroundColor: "white",
+  },
+  header: {
+    flex: 1,
+    width: SCREEN_WIDTH,
   },
 });

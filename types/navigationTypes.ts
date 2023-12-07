@@ -1,7 +1,7 @@
 export type RootStackParamList = {
   HomeScreen: undefined;
   LoginScreen: undefined;
-  WeatheScreenr: undefined;
+  WeatheScreen: undefined;
   MainScreen: undefined;
   BonusScreen: undefined;
 };
