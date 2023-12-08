@@ -1,5 +1,4 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { Button } from "react-native-paper";
 import { SCREEN_WIDTH } from "../../constants/style";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
