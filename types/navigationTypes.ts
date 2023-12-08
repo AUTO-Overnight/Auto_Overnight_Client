@@ -4,4 +4,5 @@ export type RootStackParamList = {
   WeatheScreen: undefined;
   MainScreen: undefined;
   BonusScreen: undefined;
+  FrameScreen: undefined;
 };
