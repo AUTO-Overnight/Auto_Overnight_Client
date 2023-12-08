@@ -15,7 +15,7 @@ const SettingTab = () => {
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>문의하기</Text>
-        <View>
+        <View style={styles.contentView}>
           <Text style={styles.content}>설문조사</Text>
           <Text style={styles.content}>카카오톡</Text>
         </View>
@@ -52,15 +52,12 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    textAlign: "right",
   },
   contentView: {
-    gap: 10,
+    gap: 15,
     paddingStart: 10,
   },
-  content: {
-    textAlign: "right",
-  },
+  content: {},
 });
 
 export default SettingTab;
