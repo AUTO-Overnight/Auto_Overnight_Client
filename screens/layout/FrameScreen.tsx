@@ -4,7 +4,7 @@ import { Appbar } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import LoginScreen from "../LoginScreen";
-import MainScreen from "../MainScreen";
+import MainTab from "../tab/MainTab";
 import SettingScreen from "../SettingScreen";
 import { SCREEN_WIDTH } from "../../constants/style";
 import WeatherScreen from "../WeatherScreen";
@@ -28,7 +28,7 @@ const FrameScreen = () => {
   let content;
   switch (currentTab) {
     case "Home":
-      content = <MainScreen />;
+      content = <MainTab />;
       break;
     case "Notifications":
       content = <WeatherScreen />;
@@ -53,7 +53,7 @@ const FrameScreen = () => {
         <Tab.Navigator initialRouteName='Home' activeColor='#e91e63'>
           <Tab.Screen
             name='Notifications'
-            component={MainScreen}
+            component={MainTab}
             options={{
               tabBarLabel: "Updates",
               tabBarIcon: ({ color }) => (

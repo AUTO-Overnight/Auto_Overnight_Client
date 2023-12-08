@@ -1,9 +1,9 @@
 import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
-import { SCREEN_WIDTH } from "../constants/style";
+import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import { useState } from "react";
 
-const MainScreen = () => {
+const MainTab = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const [daysMode, setDaysMode] = useState<number>(1);
   const [currentDate, setCurrentDate] = useState<string>(
@@ -23,9 +23,7 @@ const MainScreen = () => {
   };
 
   const _handleTodayPress = () => {
-    console.log("pressed");
     setCurrentDate(new Date().toISOString().split("T")[0]);
-    console.log(currentDate);
   };
 
   return (
@@ -63,7 +61,7 @@ const MainScreen = () => {
   );
 };
 
-export default MainScreen;
+export default MainTab;
 
 const styles = StyleSheet.create({
   container: {
