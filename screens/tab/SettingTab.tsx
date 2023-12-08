@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text, ScrollView, Button } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 
 const SettingTab = () => {
@@ -6,23 +6,32 @@ const SettingTab = () => {
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}>
-      <View style={styles.connectDormitoryView}>
-        <Text>기숙사 전화 연결</Text>
-        <Text>제 1 기숙사</Text>
-        <Text>제 2 기숙사</Text>
+      <View style={styles.settingMenuView}>
+        <Text style={styles.title}>기숙사 전화 연결</Text>
+        <View style={styles.contentView}>
+          <Text style={styles.content}>제 1 기숙사</Text>
+          <Text style={styles.content}>제 2 기숙사</Text>
+        </View>
       </View>
-      <View style={styles.connectDormitoryView}>
-        <Text>문의하기</Text>
-        <Text>설문조사</Text>
-        <Text>카카오톡</Text>
+      <View style={styles.settingMenuView}>
+        <Text style={styles.title}>문의하기</Text>
+        <View>
+          <Text style={styles.content}>설문조사</Text>
+          <Text style={styles.content}>카카오톡</Text>
+        </View>
       </View>
-      <View style={styles.connectDormitoryView}>
-        <Text>ETC</Text>
-        <Text>셔틀 시간표 보기</Text>
-        <Text>업데이트 내역</Text>
+      <View style={styles.settingMenuView}>
+        <Text style={styles.title}>ETC</Text>
+        <View style={styles.contentView}>
+          <Text style={styles.content}>셔틀 시간표 보기</Text>
+          <Text style={styles.content}>업데이트 내역</Text>
+        </View>
       </View>
-      <View style={styles.connectDormitoryView}>
-        <Text>로그아웃</Text>
+      <View style={styles.settingMenuView}>
+        <Text style={styles.title}>계정</Text>
+        <View style={styles.contentView}>
+          <Text style={styles.content}>로그아웃</Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -32,16 +41,25 @@ const styles = StyleSheet.create({
   container: {
     width: SCREEN_WIDTH,
     gap: 20,
+    backgroundColor: "#E0E0E0",
   },
-  connectDormitoryView: {
+  settingMenuView: {
     flex: 1,
-    backgroundColor: "orange",
-    height: 100,
+    backgroundColor: "#fff",
+    padding: 10,
+    gap: 20,
   },
-  questionsView: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "skyblue",
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "right",
+  },
+  contentView: {
+    gap: 10,
+    paddingStart: 10,
+  },
+  content: {
+    textAlign: "right",
   },
 });
 

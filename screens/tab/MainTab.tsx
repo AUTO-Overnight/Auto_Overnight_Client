@@ -27,7 +27,7 @@ const MainTab = () => {
   };
 
   return (
-    <View style={styles.content}>
+    <View style={styles.container}>
       <Calendar onDayPress={_handleDayPress} current={currentDate} />
       <View style={styles.selectedDays}>
         <ScrollView
@@ -64,7 +64,7 @@ const MainTab = () => {
 export default MainTab;
 
 const styles = StyleSheet.create({
-  content: {
+  container: {
     flex: 1,
     width: SCREEN_WIDTH,
   },
