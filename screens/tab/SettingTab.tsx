@@ -1,5 +1,7 @@
-import { StyleSheet, View, Text, ScrollView, Button } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { Button } from "react-native-paper";
 import { SCREEN_WIDTH } from "../../constants/style";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const SettingTab = () => {
   return (
@@ -9,8 +11,24 @@ const SettingTab = () => {
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>기숙사 전화 연결</Text>
         <View style={styles.contentView}>
-          <Text style={styles.content}>제 1 기숙사</Text>
-          <Text style={styles.content}>제 2 기숙사</Text>
+          <Text style={styles.content}>
+            <MaterialCommunityIcons
+              name='card-account-phone'
+              color={"#000"}
+              size={30}
+              style={styles.contentIcon}
+            />
+            <Text> 제 1 기숙사</Text>
+          </Text>
+          <Text style={styles.content}>
+            <MaterialCommunityIcons
+              name='card-account-phone'
+              color={"#000"}
+              size={30}
+              style={styles.contentIcon}
+            />
+            <Text> 제 2 기숙사</Text>
+          </Text>
         </View>
       </View>
       <View style={styles.settingMenuView}>
@@ -23,14 +41,38 @@ const SettingTab = () => {
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>ETC</Text>
         <View style={styles.contentView}>
-          <Text style={styles.content}>셔틀 시간표 보기</Text>
-          <Text style={styles.content}>업데이트 내역</Text>
+          <Text style={styles.content}>
+            <MaterialCommunityIcons
+              name='bus-stop'
+              color={"#000"}
+              size={30}
+              style={styles.contentIcon}
+            />
+            <Text>셔틀 시간표 보기</Text>
+          </Text>
+          <Text style={styles.content}>
+            <MaterialCommunityIcons
+              name='update'
+              color={"#000"}
+              size={30}
+              style={styles.contentIcon}
+            />
+            <Text style={styles.contentText}> 업데이트 내역</Text>
+          </Text>
         </View>
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>계정</Text>
         <View style={styles.contentView}>
-          <Text style={styles.content}>로그아웃</Text>
+          <Text style={styles.content}>
+            <MaterialCommunityIcons
+              name='logout'
+              color={"#000"}
+              size={30}
+              style={styles.contentIcon}
+            />
+            <Text> 로그아웃</Text>
+          </Text>
         </View>
       </View>
     </ScrollView>
@@ -58,6 +100,8 @@ const styles = StyleSheet.create({
     paddingStart: 10,
   },
   content: {},
+  contentIcon: {},
+  contentText: {},
 });
 
 export default SettingTab;
