@@ -7,7 +7,7 @@ const MainTab = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const [daysMode, setDaysMode] = useState<number>(1);
   const [currentDate, setCurrentDate] = useState<string>(
-    new Date().toISOString().split("T")[0]
+    new Date().toISOString().split("T")[0] as string
   );
 
   const _handleDayPress = (day: any) => {
@@ -64,17 +64,8 @@ const MainTab = () => {
 export default MainTab;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  header: {
-    width: SCREEN_WIDTH,
-  },
   content: {
-    flex: 8,
+    flex: 1,
     width: SCREEN_WIDTH,
   },
   selectedDays: {
@@ -99,11 +90,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  bottom: {
-    flex: 1,
-    width: SCREEN_WIDTH,
-    justifyContent: "flex-end",
-    backgroundColor: "purple",
   },
 });
