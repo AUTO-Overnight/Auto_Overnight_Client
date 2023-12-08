@@ -119,6 +119,8 @@ const styles = StyleSheet.create({
   content: {
     flex: 8,
     width: SCREEN_WIDTH,
+    justifyContent: "center",
+    alignItems: "center",
   },
   bottom: {
     flex: 1,
