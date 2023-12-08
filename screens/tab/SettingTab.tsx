@@ -1,6 +1,7 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { ICON_COLOR, ICON_NAME } from "../../constants/icon";
 
 const SettingTab = () => {
   return (
@@ -12,8 +13,8 @@ const SettingTab = () => {
         <View style={styles.contentView}>
           <Text style={styles.content}>
             <MaterialCommunityIcons
-              name='card-account-phone'
-              color={"#000"}
+              name={ICON_NAME.phone}
+              color={ICON_COLOR.lightMode}
               size={30}
               style={styles.contentIcon}
             />
@@ -21,8 +22,8 @@ const SettingTab = () => {
           </Text>
           <Text style={styles.content}>
             <MaterialCommunityIcons
-              name='card-account-phone'
-              color={"#000"}
+              name={ICON_NAME.phone}
+              color={ICON_COLOR.lightMode}
               size={30}
               style={styles.contentIcon}
             />
@@ -42,8 +43,8 @@ const SettingTab = () => {
         <View style={styles.contentView}>
           <Text style={styles.content}>
             <MaterialCommunityIcons
-              name='bus-stop'
-              color={"#000"}
+              name={ICON_NAME.shuttle}
+              color={ICON_COLOR.lightMode}
               size={30}
               style={styles.contentIcon}
             />
@@ -51,8 +52,8 @@ const SettingTab = () => {
           </Text>
           <Text style={styles.content}>
             <MaterialCommunityIcons
-              name='update'
-              color={"#000"}
+              name={ICON_NAME.update}
+              color={ICON_COLOR.lightMode}
               size={30}
               style={styles.contentIcon}
             />
@@ -65,8 +66,8 @@ const SettingTab = () => {
         <View style={styles.contentView}>
           <Text style={styles.content}>
             <MaterialCommunityIcons
-              name='logout'
-              color={"#000"}
+              name={ICON_NAME.logout}
+              color={ICON_COLOR.lightMode}
               size={30}
               style={styles.contentIcon}
             />

@@ -54,7 +54,7 @@ const FrameScreen = () => {
               tabBarLabel: "상점/벌점",
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
-                  name='trophy-variant'
+                  name={ICON_NAME.trophy}
                   color={color}
                   size={26}
                 />
@@ -72,7 +72,11 @@ const FrameScreen = () => {
             options={{
               tabBarLabel: "외박 신청",
               tabBarIcon: ({ color }) => (
-                <MaterialCommunityIcons name='home' color={color} size={26} />
+                <MaterialCommunityIcons
+                  name={ICON_NAME.home}
+                  color={color}
+                  size={26}
+                />
               ),
             }}
             listeners={{
@@ -88,7 +92,7 @@ const FrameScreen = () => {
               tabBarLabel: "설정",
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
-                  name='account-cog'
+                  name={ICON_NAME.setting}
                   color={color}
                   size={26}
                 />
