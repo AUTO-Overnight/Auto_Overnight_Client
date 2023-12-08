@@ -3,23 +3,19 @@ import { StyleSheet, View, Text } from "react-native";
 import { Appbar } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import LoginScreen from "../LoginScreen";
 import MainTab from "../tab/MainTab";
-import SettingScreen from "../SettingScreen";
 import { SCREEN_WIDTH } from "../../constants/style";
 import WeatherScreen from "../WeatherScreen";
+import { ICON_NAME } from "../../constants/icon";
+import SettingTab from "../tab/SettingTab";
 
 const FrameScreen = () => {
-  const [mode, setMode] = useState<
-    "white-balance-sunny" | "moon-waxing-crescent"
-  >("white-balance-sunny");
+  const [mode, setMode] = useState<string>(ICON_NAME.lightMode);
   const [currentTab, setCurrentTab] = useState("Home");
 
   const _handleMode = () => {
     setMode(
-      mode === "white-balance-sunny"
-        ? "moon-waxing-crescent"
-        : "white-balance-sunny"
+      mode === ICON_NAME.lightMode ? ICON_NAME.darkMode : ICON_NAME.lightMode
     );
   };
 
@@ -33,8 +29,8 @@ const FrameScreen = () => {
     case "Notifications":
       content = <WeatherScreen />;
       break;
-    case "Profile":
-      content = <SettingScreen />;
+    case "Settings":
+      content = <SettingTab />;
       break;
     default:
       content = <Text>...Loading</Text>;
@@ -55,9 +51,13 @@ const FrameScreen = () => {
             name='Notifications'
             component={MainTab}
             options={{
-              tabBarLabel: "Updates",
+              tabBarLabel: "상점/벌점",
               tabBarIcon: ({ color }) => (
-                <MaterialCommunityIcons name='bell' color={color} size={26} />
+                <MaterialCommunityIcons
+                  name='trophy-variant'
+                  color={color}
+                  size={26}
+                />
               ),
             }}
             listeners={{
@@ -68,7 +68,7 @@ const FrameScreen = () => {
           />
           <Tab.Screen
             name='Home'
-            component={LoginScreen}
+            component={MainTab}
             options={{
               tabBarLabel: "외박 신청",
               tabBarIcon: ({ color }) => (
@@ -82,13 +82,13 @@ const FrameScreen = () => {
             }}
           />
           <Tab.Screen
-            name='Profile'
-            component={SettingScreen}
+            name='Settings'
+            component={SettingTab}
             options={{
-              tabBarLabel: "Profile",
+              tabBarLabel: "설정",
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
-                  name='account'
+                  name='account-cog'
                   color={color}
                   size={26}
                 />
@@ -96,7 +96,7 @@ const FrameScreen = () => {
             }}
             listeners={{
               tabPress: (e) => {
-                setCurrentTab("Profile");
+                setCurrentTab("Settings");
               },
             }}
           />
@@ -121,6 +121,8 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 10,
+    paddingBottom: 20,
   },
   bottom: {
     flex: 1,
@@ -131,3 +133,7 @@ const styles = StyleSheet.create({
 });
 
 export default FrameScreen;
+
+// 언제나 children을 넣어서 관리를 하는 것이 옳은 방법은 아니다.
+// children을 넣어서 레이아웃처럼 제작하려 했으나, 양 측 파일들에서 상호 참조가 발생하면서 상태를 관리하도록 설정하였다.
+// switch case를 활용하여 현재 탭을 관리하고, 각 탭에 맞는 컴포넌트를 렌더링하도록 하였다.
