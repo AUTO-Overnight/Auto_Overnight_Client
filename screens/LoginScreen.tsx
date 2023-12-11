@@ -1,9 +1,11 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types/navigationTypes";
-import { Text, View } from "react-native";
+import { Text, View, Image } from "react-native";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH } from "../constants/style";
+import LoginInput from '../src/components/login/LoginInput';
+import { useState } from "react";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -15,14 +17,22 @@ type LoginProps = {
 };
 
 const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
+  const [isPressed, setIsPressed] = useState(false);
+
+  function isPressedBtn() {
+    setIsPressed(!isPressed);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text>Login Page</Text>
+        <Text>
+          로그인
+        </Text>
       </View>
-      <Button icon='camera' onPress={() => navigation.navigate("MainScreen")}>
-        Press Me
-      </Button>
+      <View style={styles.body}>
+        <LoginInput inputType="ID" />
+        <LoginInput inputType="PW" />
+      </View>
     </View>
   );
 };
@@ -38,6 +48,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   header: {
+    flex: 1,
+    width: SCREEN_WIDTH,
+    alignItems: "center",
+    marginTop: 50,
+  },
+  body: {
     flex: 1,
     width: SCREEN_WIDTH,
   },
