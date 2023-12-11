@@ -32,6 +32,12 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       <View style={styles.body}>
         <LoginInput inputType="ID" />
         <LoginInput inputType="PW" />
+        
+        <Button mode="contained" style={styles.buttonView} buttonColor="#1F2937" loading={isPressed} onPress = {() => isPressedBtn()}>
+          <Text>
+            로그인
+          </Text>
+        </Button>
       </View>
     </View>
   );
@@ -57,4 +63,9 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
   },
+  buttonView: {
+    marginHorizontal: 20,
+    marginVertical: 20,
+    borderRadius: 5
+  }
 });
