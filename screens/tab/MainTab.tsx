@@ -54,9 +54,9 @@ const MainTab = () => {
       </View>
       <View style={styles.modeSelector}>
         <CustomButton title='1 day' onPress={() => _handleModeChange(1)} />
-        <CustomButton title='1 week' onPress={() => _handleModeChange(1)} />
-        <CustomButton title='2 weeks' onPress={() => _handleModeChange(1)} />
-        <CustomButton title='4 weeks' onPress={() => _handleModeChange(1)} />
+        <CustomButton title='1 week' onPress={() => _handleModeChange(7)} />
+        <CustomButton title='2 weeks' onPress={() => _handleModeChange(14)} />
+        <CustomButton title='4 weeks' onPress={() => _handleModeChange(28)} />
       </View>
     </View>
   );
