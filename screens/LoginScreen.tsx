@@ -20,7 +20,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       <View style={styles.header}>
         <Text>Login Page</Text>
       </View>
-      <Button icon='camera' onPress={() => navigation.navigate("MainScreen")}>
+      <Button icon='camera' onPress={() => navigation.navigate("FrameScreen")}>
         Press Me
       </Button>
     </View>
