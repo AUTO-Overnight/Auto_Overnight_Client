@@ -4,6 +4,17 @@ import { Calendar } from "react-native-calendars";
 import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 
+// 날짜에 적용될 스타일을 정의하는 타입
+type MarkedDate = {
+  selected: boolean;
+  selectedColor: string;
+};
+
+// markedDates 객체의 타입
+type MarkedDates = {
+  [date: string]: MarkedDate;
+};
+
 const MainTab = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const [daysMode, setDaysMode] = useState<number>(1);
@@ -27,9 +38,21 @@ const MainTab = () => {
     setCurrentDate(new Date().toISOString().split("T")[0]);
   };
 
+  const markedDates: MarkedDates = selected.reduce(
+    (acc: MarkedDates, curr: string) => {
+      acc[curr] = { selected: true, selectedColor: "blue" };
+      return acc;
+    },
+    {}
+  );
+
   return (
     <View style={styles.container}>
-      <Calendar onDayPress={_handleDayPress} current={currentDate} />
+      <Calendar
+        onDayPress={_handleDayPress}
+        current={currentDate}
+        markedDates={markedDates}
+      />
       <View style={styles.selectedDays}>
         <ScrollView
           horizontal
