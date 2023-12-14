@@ -2,6 +2,7 @@ import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import { useState } from "react";
+import CustomButton from "../../components/global/CustomButton";
 
 const MainTab = () => {
   const [selected, setSelected] = useState<string[]>([]);
@@ -44,18 +45,18 @@ const MainTab = () => {
         </ScrollView>
       </View>
       <View style={styles.buttonView}>
-        <Button title='선택 전체 취소' onPress={() => setSelected([])} />
-        <Button title='오늘 날짜 보기' onPress={_handleTodayPress} />
-        <Button title='외박 신청' />
+        <CustomButton title='선택 전체 취소' onPress={() => setSelected([])} />
+        <CustomButton title='오늘 날짜 보기' onPress={_handleTodayPress} />
+        <CustomButton title='외박 신청' />
       </View>
       <View style={styles.modeView}>
         <Text>{daysMode}일씩 신청하기</Text>
       </View>
       <View style={styles.modeSelector}>
-        <Button title='1 day' onPress={() => _handleModeChange(1)} />
-        <Button title='1 week' onPress={() => _handleModeChange(7)} />
-        <Button title='2 weeks' onPress={() => _handleModeChange(14)} />
-        <Button title='4 weeks' onPress={() => _handleModeChange(28)} />
+        <CustomButton title='1 day' onPress={() => _handleModeChange(1)} />
+        <CustomButton title='1 week' onPress={() => _handleModeChange(7)} />
+        <CustomButton title='2 weeks' onPress={() => _handleModeChange(14)} />
+        <CustomButton title='4 weeks' onPress={() => _handleModeChange(28)} />
       </View>
     </View>
   );
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flex: 1,
+    gap: 10,
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -87,6 +89,7 @@ const styles = StyleSheet.create({
   },
   modeSelector: {
     flex: 1,
+    gap: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
