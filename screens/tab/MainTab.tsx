@@ -20,7 +20,6 @@ const MainTab = () => {
   const [dragMode, setDragMode] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<string | null>(null);
   const [dragEnd, setDragEnd] = useState<string | null>(null);
-  const [daysMode, setDaysMode] = useState<number>(1);
   const [currentDate, setCurrentDate] = useState<string>(
     new Date().toISOString().split("T")[0] as string
   );
@@ -64,10 +63,6 @@ const MainTab = () => {
     setSelected(Array.from(newSelected).sort());
   };
 
-  const _handleModeChange = (mode: number) => {
-    setDaysMode(mode);
-  };
-
   const _handleTodayPress = () => {
     setCurrentDate(new Date().toISOString().split("T")[0]);
   };
@@ -108,20 +103,18 @@ const MainTab = () => {
       </View>
       <View style={styles.modeView}>
         <Text>
-          {daysMode}일씩 신청하기{" "}
           {dragMode
             ? dragStart
-              ? ", 종료일을 선택해주세요"
-              : ", 시작일을 선택해주세요"
-            : ", 일반 모드"}
+              ? "다중 선택 모드, 종료일을 선택해주세요"
+              : "다중 선택 모드, 시작일을 선택해주세요"
+            : "일반 선택 모드, 1일씩 선택해주세요"}
         </Text>
       </View>
       <View style={styles.modeSelector}>
-        <CustomButton title='1 day' onPress={() => _handleModeChange(1)} />
-        <CustomButton title='1 week' onPress={() => _handleModeChange(7)} />
-        <CustomButton title='2 weeks' onPress={() => _handleModeChange(14)} />
-        <CustomButton title='4 weeks' onPress={() => _handleModeChange(28)} />
-        <CustomButton title='Custom' onPress={_handleToggleDragMode} />
+        <CustomButton
+          title={"선택 모드 변경"}
+          onPress={_handleToggleDragMode}
+        />
       </View>
     </View>
   );
