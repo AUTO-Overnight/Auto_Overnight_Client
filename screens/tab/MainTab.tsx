@@ -110,7 +110,9 @@ const MainTab = () => {
         <Text>
           {daysMode}일씩 신청하기{" "}
           {dragMode
-            ? ", 드래그 모드, 시작일과 종료일을 선택해주세요"
+            ? dragStart
+              ? ", 종료일을 선택해주세요"
+              : ", 시작일을 선택해주세요"
             : ", 일반 모드"}
         </Text>
       </View>
