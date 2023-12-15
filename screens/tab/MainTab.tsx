@@ -4,12 +4,29 @@ import { Calendar } from "react-native-calendars";
 import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 
+// 날짜에 적용될 스타일을 정의하는 타입
+type MarkedDate = {
+  selected: boolean;
+  selectedColor: string;
+};
+
+// markedDates 객체의 타입
+type MarkedDates = {
+  [date: string]: MarkedDate;
+};
+
 const MainTab = () => {
   const [selected, setSelected] = useState<string[]>([]);
-  const [daysMode, setDaysMode] = useState<number>(1);
+  const [dragMode, setDragMode] = useState<boolean>(false);
+  const [dragStart, setDragStart] = useState<string | null>(null);
+  const [dragEnd, setDragEnd] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>(
     new Date().toISOString().split("T")[0] as string
   );
+
+  const _handleToggleDragMode = () => {
+    setDragMode(!dragMode);
+  };
 
   const _handleDayPress = (day: any) => {
     if (!selected.includes(day.dateString)) {
@@ -19,17 +36,52 @@ const MainTab = () => {
     }
   };
 
-  const _handleModeChange = (mode: number) => {
-    setDaysMode(mode);
+  const _handleDragSelect = (day: any) => {
+    if (!dragStart) {
+      setDragStart(day.dateString);
+    } else if (!dragEnd) {
+      setDragEnd(day.dateString);
+      selectDateRange(dragStart, day.dateString);
+      setDragStart(null);
+      setDragEnd(null);
+    }
+  };
+
+  const dayPressHandler = dragMode ? _handleDragSelect : _handleDayPress;
+
+  const selectDateRange = (startDate: string, endDate: string) => {
+    let start = new Date(startDate);
+    let end = new Date(endDate);
+    let day = start;
+    const newSelected = new Set(selected);
+
+    while (day <= end) {
+      newSelected.add(day.toISOString().split("T")[0]);
+      day = new Date(day.setDate(day.getDate() + 1));
+    }
+
+    setSelected(Array.from(newSelected).sort());
   };
 
   const _handleTodayPress = () => {
     setCurrentDate(new Date().toISOString().split("T")[0]);
   };
 
+  const markedDates: MarkedDates = selected.reduce(
+    (acc: MarkedDates, curr: string) => {
+      acc[curr] = { selected: true, selectedColor: "blue" };
+      return acc;
+    },
+    {}
+  );
+
   return (
     <View style={styles.container}>
-      <Calendar onDayPress={_handleDayPress} current={currentDate} />
+      <Calendar
+        onDayPress={dayPressHandler}
+        current={currentDate}
+        markedDates={markedDates}
+      />
       <View style={styles.selectedDays}>
         <ScrollView
           horizontal
@@ -50,13 +102,19 @@ const MainTab = () => {
         <CustomButton title='외박 신청' />
       </View>
       <View style={styles.modeView}>
-        <Text>{daysMode}일씩 신청하기</Text>
+        <Text>
+          {dragMode
+            ? dragStart
+              ? "다중 선택 모드, 종료일을 선택해주세요"
+              : "다중 선택 모드, 시작일을 선택해주세요"
+            : "일반 선택 모드, 1일씩 선택해주세요"}
+        </Text>
       </View>
       <View style={styles.modeSelector}>
-        <CustomButton title='1 day' onPress={() => _handleModeChange(1)} />
-        <CustomButton title='1 week' onPress={() => _handleModeChange(7)} />
-        <CustomButton title='2 weeks' onPress={() => _handleModeChange(14)} />
-        <CustomButton title='4 weeks' onPress={() => _handleModeChange(28)} />
+        <CustomButton
+          title={"선택 모드 변경"}
+          onPress={_handleToggleDragMode}
+        />
       </View>
     </View>
   );
