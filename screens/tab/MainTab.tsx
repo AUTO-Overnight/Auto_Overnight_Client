@@ -3,6 +3,7 @@ import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
+import useCalendarState from "../../hooks/useCalendarState";
 
 // 날짜에 적용될 스타일을 정의하는 타입
 type MarkedDate = {
@@ -16,66 +17,34 @@ type MarkedDates = {
 };
 
 const MainTab = () => {
-  const [selected, setSelected] = useState<string[]>([]);
-  const [dragMode, setDragMode] = useState<boolean>(false);
-  const [dragStart, setDragStart] = useState<string | null>(null);
-  const [dragEnd, setDragEnd] = useState<string | null>(null);
-  const [currentDate, setCurrentDate] = useState<string>(
-    new Date().toISOString().split("T")[0].toString() as string
-  );
+  const {
+    selectedDates,
+    setSelectedDates,
+    dragMode,
+    toggleDragMode,
+    dragStart,
+    currentDate,
+    setCurrentDate,
+    handleDaySelect,
+    handleDragSelect,
+    handleTodayPress,
+  } = useCalendarState();
 
-  const _handleToggleDragMode = () => {
-    setDragMode(!dragMode);
-  };
+  const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
 
-  const _handleDayPress = (day: any) => {
-    if (!selected.includes(day.dateString)) {
-      setSelected([...selected, day.dateString].sort());
-    } else {
-      setSelected(selected.filter((date) => date !== day.dateString));
-    }
-  };
-
-  const _handleDragSelect = (day: any) => {
-    if (!dragStart) {
-      setDragStart(day.dateString);
-    } else if (!dragEnd) {
-      setDragEnd(day.dateString);
-      selectDateRange(dragStart, day.dateString);
-      setDragStart(null);
-      setDragEnd(null);
-    }
-  };
-
-  const _dayPressHandler = dragMode ? _handleDragSelect : _handleDayPress;
-
-  const selectDateRange = (startDate: string, endDate: string) => {
-    let start = new Date(startDate);
-    let end = new Date(endDate);
-    let day = start;
-    const newSelected = new Set(selected);
-
-    while (day <= end) {
-      newSelected.add(day.toISOString().split("T")[0]);
-      day = new Date(day.setDate(day.getDate() + 1));
-    }
-
-    setSelected(Array.from(newSelected).sort());
-  };
-
-  const _handleTodayPress = () => {
-    // string값으로 변환해야 제대로 인식함. Date형식으로 넣으면 작동하지 않음
-    const today = new Date().toISOString().split("T")[0].toString();
-    setCurrentDate(`${today}` as string);
-  };
-
-  const markedDates: MarkedDates = selected.reduce(
+  const markedDates: MarkedDates = selectedDates.reduce(
     (acc: MarkedDates, curr: string) => {
       acc[curr] = { selected: true, selectedColor: "blue" };
       return acc;
     },
     {}
   );
+
+  const instructions = dragMode
+    ? dragStart
+      ? "다중 선택 모드, 종료일을 선택해주세요"
+      : "다중 선택 모드, 시작일을 선택해주세요"
+    : "일반 선택 모드, 1일씩 선택해주세요";
 
   return (
     <View style={styles.container}>
@@ -84,8 +53,8 @@ const MainTab = () => {
         key={currentDate}
         current={currentDate}
         markedDates={markedDates}
-        showSixWeeks={true}
-        enableSwipeMonths={true}
+        showSixWeeks
+        enableSwipeMonths
         onMonthChange={() => setCurrentDate("")}
       />
       <View style={styles.selectedDays}>
@@ -93,7 +62,7 @@ const MainTab = () => {
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{ alignItems: "center" }}>
-          {selected.map((date) => (
+          {selectedDates.map((date) => (
             <Text
               key={date}
               style={{ backgroundColor: "orange", marginHorizontal: 5 }}>
@@ -103,24 +72,18 @@ const MainTab = () => {
         </ScrollView>
       </View>
       <View style={styles.buttonView}>
-        <CustomButton title='선택 전체 취소' onPress={() => setSelected([])} />
-        <CustomButton title='오늘 날짜 보기' onPress={_handleTodayPress} />
+        <CustomButton
+          title='선택 전체 취소'
+          onPress={() => setSelectedDates([])}
+        />
+        <CustomButton title='오늘 날짜 보기' onPress={handleTodayPress} />
         <CustomButton title='외박 신청' />
       </View>
       <View style={styles.modeView}>
-        <Text>
-          {dragMode
-            ? dragStart
-              ? "다중 선택 모드, 종료일을 선택해주세요"
-              : "다중 선택 모드, 시작일을 선택해주세요"
-            : "일반 선택 모드, 1일씩 선택해주세요"}
-        </Text>
+        <Text>{instructions}</Text>
       </View>
       <View style={styles.modeSelector}>
-        <CustomButton
-          title={"선택 모드 변경"}
-          onPress={_handleToggleDragMode}
-        />
+        <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
       </View>
     </View>
   );
