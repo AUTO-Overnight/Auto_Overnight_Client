@@ -1,7 +1,14 @@
-import { StyleSheet, View, Text, Button, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 
 // 날짜에 적용될 스타일을 정의하는 타입
@@ -21,7 +28,7 @@ const MainTab = () => {
   const [dragStart, setDragStart] = useState<string | null>(null);
   const [dragEnd, setDragEnd] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState<string>(
-    new Date().toISOString().split("T")[0] as string
+    new Date().toISOString().split("T")[0].toString() as string
   );
 
   const _handleToggleDragMode = () => {
@@ -64,7 +71,9 @@ const MainTab = () => {
   };
 
   const _handleTodayPress = () => {
-    setCurrentDate(new Date().toISOString().split("T")[0]);
+    // string값으로 변환해야 제대로 인식함. Date형식으로 넣으면 작동하지 않음
+    const today = new Date().toISOString().split("T")[0].toString();
+    setCurrentDate(`${today}` as string);
   };
 
   const markedDates: MarkedDates = selected.reduce(
@@ -79,8 +88,12 @@ const MainTab = () => {
     <View style={styles.container}>
       <Calendar
         onDayPress={dayPressHandler}
+        key={currentDate}
         current={currentDate}
         markedDates={markedDates}
+        showSixWeeks={true}
+        enableSwipeMonths={true}
+        onMonthChange={() => setCurrentDate("")}
       />
       <View style={styles.selectedDays}>
         <ScrollView
