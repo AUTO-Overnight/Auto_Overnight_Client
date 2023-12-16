@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 
 // 날짜에 적용될 스타일을 정의하는 타입
