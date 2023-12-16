@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  Button,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import { useState } from "react";
@@ -54,7 +47,7 @@ const MainTab = () => {
     }
   };
 
-  const dayPressHandler = dragMode ? _handleDragSelect : _handleDayPress;
+  const _dayPressHandler = dragMode ? _handleDragSelect : _handleDayPress;
 
   const selectDateRange = (startDate: string, endDate: string) => {
     let start = new Date(startDate);
@@ -87,7 +80,7 @@ const MainTab = () => {
   return (
     <View style={styles.container}>
       <Calendar
-        onDayPress={dayPressHandler}
+        onDayPress={_dayPressHandler}
         key={currentDate}
         current={currentDate}
         markedDates={markedDates}
