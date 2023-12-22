@@ -35,12 +35,16 @@ const useCalendarState = () => {
   const selectDateRange = (startDate: string, endDate: string) => {
     let start = new Date(startDate);
     let end = new Date(endDate);
-    let day = start;
+
+    if (start > end) {
+      [start, end] = [end, start];
+    }
+
     const newSelected = new Set(selectedDates);
 
-    while (day <= end) {
+    // for문을 사용하여 날짜 범위 내의 모든 날짜 추가
+    for (let day = start; day <= end; day.setDate(day.getDate() + 1)) {
       newSelected.add(day.toISOString().split("T")[0]);
-      day = new Date(day.setDate(day.getDate() + 1));
     }
 
     setSelectedDates(Array.from(newSelected).sort());
