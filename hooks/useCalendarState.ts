@@ -43,6 +43,10 @@ const useCalendarState = () => {
   };
 
   const handleDragSelect = (day: any) => {
+    if (!datesToMark[day.dateString]) {
+      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
+      return;
+    }
     if (!dragStart) {
       setDragStart(day.dateString);
     } else if (!dragEnd) {
