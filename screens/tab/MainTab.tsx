@@ -24,10 +24,10 @@ const MainTab = () => {
     toggleDragMode,
     dragStart,
     currentDate,
-    setCurrentDate,
     handleDaySelect,
     handleDragSelect,
     handleTodayPress,
+    handleMonthChange,
   } = useCalendarState();
 
   const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
@@ -55,7 +55,7 @@ const MainTab = () => {
         markedDates={markedDates}
         showSixWeeks
         enableSwipeMonths
-        onMonthChange={() => setCurrentDate("")}
+        onMonthChange={handleMonthChange}
       />
       <View style={styles.selectedDays}>
         <ScrollView
