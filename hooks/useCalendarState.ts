@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
 
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -9,11 +10,31 @@ const useCalendarState = () => {
     new Date().toISOString().split("T")[0]
   );
 
+  const [datesToMark, setDatesToMark] = useState<{ [key: string]: any }>({});
+
+  useEffect(() => {
+    const today = new Date();
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + 45);
+    const newDatesToMark: any = {};
+
+    for (let d = today; d <= endDate; d.setDate(d.getDate() + 1)) {
+      const dateString = d.toISOString().split("T")[0];
+      newDatesToMark[dateString] = { selected: false };
+    }
+
+    setDatesToMark(newDatesToMark);
+  }, []);
+
   const toggleDragMode = () => {
     setDragMode(!dragMode);
   };
 
   const handleDaySelect = (day: any) => {
+    if (!datesToMark[day.dateString]) {
+      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
+      return;
+    }
     if (!selectedDates.includes(day.dateString)) {
       setSelectedDates([...selectedDates, day.dateString].sort());
     } else {
@@ -63,13 +84,39 @@ const useCalendarState = () => {
     console.log("Current date updated to: ", newDate);
   };
 
+  const getMarkedDates = () => {
+    const marked: any = {};
+    // 활성화된 날짜에 기본 스타일 적용
+    Object.keys(datesToMark).forEach((date) => {
+      marked[date] = {
+        ...datesToMark[date],
+        textColor: "gray",
+      }; // 비활성화된 날짜의 스타일
+    });
+
+    // 선택된 날짜에 특별한 스타일 적용
+    selectedDates.forEach((date) => {
+      if (marked[date]) {
+        marked[date] = {
+          ...marked[date],
+          selected: true,
+          selectedColor: "blue",
+        };
+      }
+    });
+
+    return marked;
+  };
+
   return {
     selectedDates,
     setSelectedDates,
+    datesToMark,
     dragMode,
     toggleDragMode,
     dragStart,
     currentDate,
+    getMarkedDates,
     handleDaySelect,
     handleDragSelect,
     handleTodayPress,

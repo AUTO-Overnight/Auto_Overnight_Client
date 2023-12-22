@@ -1,29 +1,19 @@
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
-import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
-
-// 날짜에 적용될 스타일을 정의하는 타입
-type MarkedDate = {
-  selected: boolean;
-  selectedColor: string;
-};
-
-// markedDates 객체의 타입
-type MarkedDates = {
-  [date: string]: MarkedDate;
-};
 
 const MainTab = () => {
   const {
     selectedDates,
     setSelectedDates,
+    datesToMark,
     dragMode,
     toggleDragMode,
     dragStart,
     currentDate,
+    getMarkedDates,
     handleDaySelect,
     handleDragSelect,
     handleTodayPress,
@@ -32,13 +22,7 @@ const MainTab = () => {
 
   const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
 
-  const markedDates: MarkedDates = selectedDates.reduce(
-    (acc: MarkedDates, curr: string) => {
-      acc[curr] = { selected: true, selectedColor: "blue" };
-      return acc;
-    },
-    {}
-  );
+  const markedDates = getMarkedDates();
 
   const instructions = dragMode
     ? dragStart
