@@ -5,9 +5,9 @@ import { createMaterialBottomTabNavigator } from "react-native-paper/react-navig
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import MainTab from "../tab/MainTab";
 import { SCREEN_WIDTH } from "../../constants/style";
-import WeatherScreen from "../WeatherScreen";
 import { ICON_NAME } from "../../constants/icon";
 import SettingTab from "../tab/SettingTab";
+import BonusPointScreen from "../BonusPointScreen";
 
 const FrameScreen = () => {
   const [mode, setMode] = useState<string>(ICON_NAME.lightMode);
@@ -27,7 +27,7 @@ const FrameScreen = () => {
       content = <MainTab />;
       break;
     case "Notifications":
-      content = <WeatherScreen />;
+      content = <BonusPointScreen />;
       break;
     case "Settings":
       content = <SettingTab />;
