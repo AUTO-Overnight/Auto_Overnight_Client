@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 
+type MarkedDate = {
+  selected?: boolean;
+  disabled?: boolean;
+  selectedColor?: string;
+  textColor?: string;
+};
+
+type MarkedDates = {
+  [date: string]: MarkedDate;
+};
+
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [dragMode, setDragMode] = useState<boolean>(false);
@@ -9,14 +20,13 @@ const useCalendarState = () => {
   const [currentDate, setCurrentDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
-
-  const [datesToMark, setDatesToMark] = useState<{ [key: string]: any }>({});
+  const [datesToMark, setDatesToMark] = useState<MarkedDates>({});
 
   useEffect(() => {
     const today = new Date();
     const endDate = new Date(today);
     endDate.setDate(today.getDate() + 45);
-    const newDatesToMark: any = {};
+    const newDatesToMark: MarkedDates = {};
 
     for (let d = today; d <= endDate; d.setDate(d.getDate() + 1)) {
       const dateString = d.toISOString().split("T")[0];
@@ -24,13 +34,14 @@ const useCalendarState = () => {
     }
 
     setDatesToMark(newDatesToMark);
+    console.log(datesToMark);
   }, []);
 
   const toggleDragMode = () => {
     setDragMode(!dragMode);
   };
 
-  const handleDaySelect = (day: any) => {
+  const handleDaySelect = (day: { dateString: string }) => {
     if (!datesToMark[day.dateString]) {
       Alert.alert("알림", "신청할 수 없는 날짜입니다.");
       return;
@@ -42,7 +53,7 @@ const useCalendarState = () => {
     }
   };
 
-  const handleDragSelect = (day: any) => {
+  const handleDragSelect = (day: { dateString: string }) => {
     if (!datesToMark[day.dateString]) {
       Alert.alert("알림", "신청할 수 없는 날짜입니다.");
       return;
@@ -57,7 +68,7 @@ const useCalendarState = () => {
     }
   };
 
-  const selectDateRange = (startDate: string, endDate: string) => {
+  const selectDateRange = (startDate: string, endDate: string): void => {
     let start = new Date(startDate);
     let end = new Date(endDate);
 
@@ -88,15 +99,34 @@ const useCalendarState = () => {
     console.log("Current date updated to: ", newDate);
   };
 
-  const getMarkedDates = () => {
-    const marked: any = {};
-    // 활성화된 날짜에 기본 스타일 적용
-    Object.keys(datesToMark).forEach((date) => {
-      marked[date] = {
-        ...datesToMark[date],
-        textColor: "gray",
-      }; // 비활성화된 날짜의 스타일
-    });
+  const getMarkedDates = (): MarkedDates => {
+    const marked: MarkedDates = {};
+    const today = new Date();
+    const endDate = new Date();
+    endDate.setDate(today.getDate() + 45);
+
+    // 전체 날짜 범위를 순회하며 스타일 적용
+    for (
+      let d = new Date(today.getFullYear(), 0, 1);
+      d <= new Date(today.getFullYear(), 11, 31);
+      d.setDate(d.getDate() + 1)
+    ) {
+      const dateString = d.toISOString().split("T")[0];
+
+      if (d >= today && d <= endDate) {
+        // 활성화된 날짜에 대한 기본 스타일 적용
+        marked[dateString] = {
+          ...datesToMark[dateString],
+          textColor: "gray",
+        };
+      } else {
+        // 비활성화된 날짜에 대한 스타일 적용
+        marked[dateString] = {
+          disabled: true,
+          textColor: "lightgray",
+        };
+      }
+    }
 
     // 선택된 날짜에 특별한 스타일 적용
     selectedDates.forEach((date) => {
