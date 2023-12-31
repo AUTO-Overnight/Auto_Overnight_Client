@@ -34,7 +34,6 @@ const useCalendarState = () => {
     }
 
     setDatesToMark(newDatesToMark);
-    console.log(datesToMark);
   }, []);
 
   const toggleDragMode = () => {
@@ -96,7 +95,6 @@ const useCalendarState = () => {
     // 달(month)은 1 기반으로 계산되므로, 0-11 범위를 가지는 JavaScript 날짜에서 사용하기 위해 1을 빼줍니다.
     const newDate = new Date(year, month - 1, 2).toISOString().split("T")[0];
     setCurrentDate(newDate);
-    console.log("Current date updated to: ", newDate);
   };
 
   const getMarkedDates = (): MarkedDates => {
@@ -109,7 +107,6 @@ const useCalendarState = () => {
     // 선택된 날짜에 특별한 스타일 적용
     selectedDates.forEach((date) => {
       if (marked[date]) {
-        console.log("marked[date] : ", marked[date]);
         marked[date] = {
           ...marked[date],
           selected: true,

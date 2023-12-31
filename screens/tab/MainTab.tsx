@@ -3,13 +3,11 @@ import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
-import { useEffect } from "react";
 
 const MainTab = () => {
   const {
     selectedDates,
     setSelectedDates,
-    setCurrentDate,
     dragMode,
     toggleDragMode,
     dragStart,
@@ -30,10 +28,6 @@ const MainTab = () => {
       ? "다중 선택 모드, 종료일을 선택해주세요"
       : "다중 선택 모드, 시작일을 선택해주세요"
     : "일반 선택 모드, 1일씩 선택해주세요";
-
-  useEffect(() => {
-    console.log("currentDate changed!", currentDate);
-  }, [currentDate]);
 
   return (
     <View style={styles.container}>
