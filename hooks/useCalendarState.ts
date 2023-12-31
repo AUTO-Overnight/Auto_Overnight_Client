@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
+import { RULES } from "../constants/rules";
 
 type MarkedDate = {
   selected?: boolean;
@@ -25,7 +26,7 @@ const useCalendarState = () => {
   useEffect(() => {
     const today = new Date();
     const endDate = new Date(today);
-    endDate.setDate(today.getDate() + 45);
+    endDate.setDate(today.getDate() + RULES.availableToSelect.max);
     const newDatesToMark: MarkedDates = {};
 
     for (let d = today; d <= endDate; d.setDate(d.getDate() + 1)) {
