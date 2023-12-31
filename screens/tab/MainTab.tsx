@@ -11,6 +11,7 @@ import { Calendar } from "react-native-calendars";
 import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
 import { useState } from "react";
+import ConfirmOvernightDatesModal from "../../components/modal/ConfirmOvernightDatesModal";
 
 const MainTab = () => {
   const {
@@ -73,23 +74,11 @@ const MainTab = () => {
         <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
       </View>
       {/* 모달 */}
-      <Modal
-        animationType='slide'
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={closeModal}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>해당 날짜에 신청하시겠습니까?</Text>
-          <ScrollView>
-            {selectedDates.map((date) => (
-              <Text key={date} style={styles.dateText}>
-                {date}
-              </Text>
-            ))}
-          </ScrollView>
-          <Button title='확인' onPress={closeModal} />
-        </View>
-      </Modal>
+      <ConfirmOvernightDatesModal
+        selectedDates={selectedDates}
+        isModalVisible={isModalVisible}
+        closeModal={closeModal}
+      />
     </View>
   );
 };
