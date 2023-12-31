@@ -1,8 +1,16 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  ScrollView,
+  Modal,
+  Button,
+} from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
+import { useState } from "react";
 
 const MainTab = () => {
   const {
@@ -18,6 +26,16 @@ const MainTab = () => {
     handleTodayPress,
     handleMonthChange,
   } = useCalendarState();
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleApplyPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
 
   const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
 
@@ -40,27 +58,13 @@ const MainTab = () => {
         enableSwipeMonths
         onMonthChange={handleMonthChange}
       />
-      <View style={styles.selectedDays}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}>
-          {selectedDates.map((date) => (
-            <Text
-              key={date}
-              style={{ backgroundColor: "orange", marginHorizontal: 5 }}>
-              {date}
-            </Text>
-          ))}
-        </ScrollView>
-      </View>
       <View style={styles.buttonView}>
         <CustomButton
           title='선택 전체 취소'
           onPress={() => setSelectedDates([])}
         />
         <CustomButton title='오늘 날짜 보기' onPress={handleTodayPress} />
-        <CustomButton title='외박 신청' />
+        <CustomButton title='외박 신청' onPress={handleApplyPress} />
       </View>
       <View style={styles.modeView}>
         <Text>{instructions}</Text>
@@ -68,6 +72,24 @@ const MainTab = () => {
       <View style={styles.modeSelector}>
         <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
       </View>
+      {/* 모달 */}
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={closeModal}>
+        <View style={styles.modalView}>
+          <Text style={styles.modalText}>해당 날짜에 신청하시겠습니까?</Text>
+          <ScrollView>
+            {selectedDates.map((date) => (
+              <Text key={date} style={styles.dateText}>
+                {date}
+              </Text>
+            ))}
+          </ScrollView>
+          <Button title='확인' onPress={closeModal} />
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -78,11 +100,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: SCREEN_WIDTH,
-  },
-  selectedDays: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonView: {
     flex: 1,
@@ -103,5 +120,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  dateText: {
+    backgroundColor: "orange",
+    marginHorizontal: 5,
+    marginBottom: 10,
   },
 });
