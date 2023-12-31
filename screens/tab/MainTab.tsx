@@ -8,7 +8,6 @@ const MainTab = () => {
   const {
     selectedDates,
     setSelectedDates,
-    datesToMark,
     dragMode,
     toggleDragMode,
     dragStart,
@@ -39,7 +38,7 @@ const MainTab = () => {
         markedDates={markedDates}
         showSixWeeks
         enableSwipeMonths
-        onMonthChange={handleMonthChange}
+        // onMonthChange={handleMonthChange}
       />
       <View style={styles.selectedDays}>
         <ScrollView

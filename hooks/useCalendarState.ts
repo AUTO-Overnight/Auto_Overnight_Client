@@ -101,36 +101,15 @@ const useCalendarState = () => {
 
   const getMarkedDates = (): MarkedDates => {
     const marked: MarkedDates = {};
-    const today = new Date();
-    const endDate = new Date();
-    endDate.setDate(today.getDate() + 45);
 
-    // 전체 날짜 범위를 순회하며 스타일 적용
-    for (
-      let d = new Date(today.getFullYear(), 0, 1);
-      d <= new Date(today.getFullYear(), 11, 31);
-      d.setDate(d.getDate() + 1)
-    ) {
-      const dateString = d.toISOString().split("T")[0];
-
-      if (d >= today && d <= endDate) {
-        // 활성화된 날짜에 대한 기본 스타일 적용
-        marked[dateString] = {
-          ...datesToMark[dateString],
-          textColor: "gray",
-        };
-      } else {
-        // 비활성화된 날짜에 대한 스타일 적용
-        marked[dateString] = {
-          disabled: true,
-          textColor: "lightgray",
-        };
-      }
+    for (const date in datesToMark) {
+      marked[date] = { ...datesToMark[date] };
     }
 
     // 선택된 날짜에 특별한 스타일 적용
     selectedDates.forEach((date) => {
       if (marked[date]) {
+        console.log("marked[date] : ", marked[date]);
         marked[date] = {
           ...marked[date],
           selected: true,
