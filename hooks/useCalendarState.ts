@@ -94,7 +94,7 @@ const useCalendarState = () => {
   const handleMonthChange = (monthInfo: { year: number; month: number }) => {
     const { year, month } = monthInfo;
     // 달(month)은 1 기반으로 계산되므로, 0-11 범위를 가지는 JavaScript 날짜에서 사용하기 위해 1을 빼줍니다.
-    const newDate = new Date(year, month - 1, 1).toISOString().split("T")[0];
+    const newDate = new Date(year, month - 1, 2).toISOString().split("T")[0];
     setCurrentDate(newDate);
     console.log("Current date updated to: ", newDate);
   };
@@ -124,6 +124,7 @@ const useCalendarState = () => {
   return {
     selectedDates,
     setSelectedDates,
+    setCurrentDate,
     datesToMark,
     dragMode,
     toggleDragMode,
