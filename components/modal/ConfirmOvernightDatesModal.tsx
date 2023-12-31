@@ -35,6 +35,7 @@ const ConfirmOvernightDatesModal = ({
             ))}
           </ScrollView>
           <View style={styles.buttonView}>
+            {/* TODO: 여기에 외박신청 API 연결 */}
             <Button title='신청하기' onPress={closeModal} />
             <Button title='닫기' onPress={closeModal} />
           </View>
