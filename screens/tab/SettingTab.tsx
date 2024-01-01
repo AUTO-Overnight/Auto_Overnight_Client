@@ -32,12 +32,12 @@ const SettingTab = () => {
 
   // 업데이트 내역 확인 함수
   const checkUpdates = () => {
-    // 업데이트 내역 확인 로직
+    // TODO: 업데이트 내역 확인 로직
   };
 
   // 로그아웃 함수
   const logout = () => {
-    // 로그아웃 로직
+    // TODO: 로그아웃 로직
   };
 
   return (
