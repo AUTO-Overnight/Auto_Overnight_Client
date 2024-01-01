@@ -1,20 +1,10 @@
-import { StyleSheet, View, Text, ScrollView } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
-import { useState } from "react";
 import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
-
-// 날짜에 적용될 스타일을 정의하는 타입
-type MarkedDate = {
-  selected: boolean;
-  selectedColor: string;
-};
-
-// markedDates 객체의 타입
-type MarkedDates = {
-  [date: string]: MarkedDate;
-};
+import { useState } from "react";
+import ConfirmOvernightDatesModal from "../../components/modal/ConfirmOvernightDatesModal";
 
 const MainTab = () => {
   const {
@@ -24,21 +14,26 @@ const MainTab = () => {
     toggleDragMode,
     dragStart,
     currentDate,
+    getMarkedDates,
     handleDaySelect,
     handleDragSelect,
     handleTodayPress,
     handleMonthChange,
   } = useCalendarState();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleApplyPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
   const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
 
-  const markedDates: MarkedDates = selectedDates.reduce(
-    (acc: MarkedDates, curr: string) => {
-      acc[curr] = { selected: true, selectedColor: "blue" };
-      return acc;
-    },
-    {}
-  );
+  const markedDates = getMarkedDates();
 
   const instructions = dragMode
     ? dragStart
@@ -57,27 +52,13 @@ const MainTab = () => {
         enableSwipeMonths
         onMonthChange={handleMonthChange}
       />
-      <View style={styles.selectedDays}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ alignItems: "center" }}>
-          {selectedDates.map((date) => (
-            <Text
-              key={date}
-              style={{ backgroundColor: "orange", marginHorizontal: 5 }}>
-              {date}
-            </Text>
-          ))}
-        </ScrollView>
-      </View>
       <View style={styles.buttonView}>
         <CustomButton
           title='선택 전체 취소'
           onPress={() => setSelectedDates([])}
         />
         <CustomButton title='오늘 날짜 보기' onPress={handleTodayPress} />
-        <CustomButton title='외박 신청' />
+        <CustomButton title='외박 신청' onPress={handleApplyPress} />
       </View>
       <View style={styles.modeView}>
         <Text>{instructions}</Text>
@@ -85,6 +66,12 @@ const MainTab = () => {
       <View style={styles.modeSelector}>
         <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
       </View>
+      {/* 모달 */}
+      <ConfirmOvernightDatesModal
+        selectedDates={selectedDates}
+        isModalVisible={isModalVisible}
+        closeModal={closeModal}
+      />
     </View>
   );
 };
@@ -95,11 +82,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: SCREEN_WIDTH,
-  },
-  selectedDays: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
   },
   buttonView: {
     flex: 1,
@@ -120,5 +102,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  dateText: {
+    backgroundColor: "orange",
+    marginHorizontal: 5,
+    marginBottom: 10,
   },
 });

@@ -1,4 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Alert } from "react-native";
+import { RULES } from "../constants/rules";
+
+type MarkedDate = {
+  selected?: boolean;
+  disabled?: boolean;
+  selectedColor?: string;
+  textColor?: string;
+};
+
+type MarkedDates = {
+  [date: string]: MarkedDate;
+};
 
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -8,12 +21,31 @@ const useCalendarState = () => {
   const [currentDate, setCurrentDate] = useState<string>(
     new Date().toISOString().split("T")[0]
   );
+  const [datesToMark, setDatesToMark] = useState<MarkedDates>({});
+
+  useEffect(() => {
+    const today = new Date();
+    const endDate = new Date(today);
+    endDate.setDate(today.getDate() + RULES.availableToSelect.max);
+    const newDatesToMark: MarkedDates = {};
+
+    for (let d = today; d <= endDate; d.setDate(d.getDate() + 1)) {
+      const dateString = d.toISOString().split("T")[0];
+      newDatesToMark[dateString] = { selected: false };
+    }
+
+    setDatesToMark(newDatesToMark);
+  }, []);
 
   const toggleDragMode = () => {
     setDragMode(!dragMode);
   };
 
-  const handleDaySelect = (day: any) => {
+  const handleDaySelect = (day: { dateString: string }) => {
+    if (!datesToMark[day.dateString]) {
+      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
+      return;
+    }
     if (!selectedDates.includes(day.dateString)) {
       setSelectedDates([...selectedDates, day.dateString].sort());
     } else {
@@ -21,7 +53,11 @@ const useCalendarState = () => {
     }
   };
 
-  const handleDragSelect = (day: any) => {
+  const handleDragSelect = (day: { dateString: string }) => {
+    if (!datesToMark[day.dateString]) {
+      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
+      return;
+    }
     if (!dragStart) {
       setDragStart(day.dateString);
     } else if (!dragEnd) {
@@ -32,7 +68,7 @@ const useCalendarState = () => {
     }
   };
 
-  const selectDateRange = (startDate: string, endDate: string) => {
+  const selectDateRange = (startDate: string, endDate: string): void => {
     let start = new Date(startDate);
     let end = new Date(endDate);
 
@@ -58,18 +94,41 @@ const useCalendarState = () => {
   const handleMonthChange = (monthInfo: { year: number; month: number }) => {
     const { year, month } = monthInfo;
     // 달(month)은 1 기반으로 계산되므로, 0-11 범위를 가지는 JavaScript 날짜에서 사용하기 위해 1을 빼줍니다.
-    const newDate = new Date(year, month - 1, 1).toISOString().split("T")[0];
+    const newDate = new Date(year, month - 1, 2).toISOString().split("T")[0];
     setCurrentDate(newDate);
-    console.log("Current date updated to: ", newDate);
+  };
+
+  const getMarkedDates = (): MarkedDates => {
+    const marked: MarkedDates = {};
+
+    for (const date in datesToMark) {
+      marked[date] = { ...datesToMark[date] };
+    }
+
+    // 선택된 날짜에 특별한 스타일 적용
+    selectedDates.forEach((date) => {
+      if (marked[date]) {
+        marked[date] = {
+          ...marked[date],
+          selected: true,
+          selectedColor: "blue",
+        };
+      }
+    });
+
+    return marked;
   };
 
   return {
     selectedDates,
     setSelectedDates,
+    setCurrentDate,
+    datesToMark,
     dragMode,
     toggleDragMode,
     dragStart,
     currentDate,
+    getMarkedDates,
     handleDaySelect,
     handleDragSelect,
     handleTodayPress,
