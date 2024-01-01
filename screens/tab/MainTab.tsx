@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  Modal,
-  Button,
-} from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { Calendar } from "react-native-calendars";
 import CustomButton from "../../components/global/CustomButton";
