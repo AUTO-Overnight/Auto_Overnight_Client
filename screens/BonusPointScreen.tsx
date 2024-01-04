@@ -56,11 +56,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
     paddingTop: StatusBar.currentHeight,
+    backgroundColor: "#fff",
   },
   header: {
     width: SCREEN_WIDTH,
     height: 150,
-    backgroundColor: "#EFF4FF",
+    backgroundColor: "#f6f8ff",
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,

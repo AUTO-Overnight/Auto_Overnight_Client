@@ -64,6 +64,7 @@ const SettingTab = () => {
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
+      style={styles.backgroundContainer}
     >
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>기숙사 전화 연결</Text>
@@ -145,6 +146,9 @@ const SettingTab = () => {
 };
 
 const styles = StyleSheet.create({
+  backgroundContainer: {
+    backgroundColor: "#fff",
+  },
   container: {
     width: SCREEN_WIDTH,
     gap: 20,

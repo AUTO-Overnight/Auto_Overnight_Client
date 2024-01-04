@@ -34,7 +34,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Appbar.Header style={{ backgroundColor: "#fff" }}>
+        <Appbar.Header style={styles.background}>
           <Appbar.Content title="외박 신청" />
           <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
@@ -100,10 +100,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   header: {
     width: SCREEN_WIDTH,
+  },
+  background: {
+    backgroundColor: "#fff",
   },
   content: {
     flex: 8,
