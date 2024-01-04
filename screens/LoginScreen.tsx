@@ -5,9 +5,10 @@ import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH } from "../constants/style";
 import LoginInput from "../login/module/ui/LoginInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getLogin } from "../login/module/api/login";
 import { useUserStore } from "../store/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -24,6 +25,10 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const userStore = useUserStore.getState();
 
+  useEffect(() => {
+    console.log("[BeforeLogin] userStore", userStore);
+  }, []);
+
   // 로그인 API 호출
   const onSubmitLoginForm = async () => {
     setIsPressed(true);
@@ -32,8 +37,10 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       try {
         const response = await getLogin({ id, password });
 
-        userStore.set(response.data);
-        console.log("[Login]userStore: ", userStore);
+        useUserStore.setState(response.data, true);
+
+        console.log("[Login] userStore", useUserStore.getState());
+
         navigation.navigate("FrameScreen");
       } catch (error: any) {
         alert(error.response.data.message);

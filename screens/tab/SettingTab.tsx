@@ -5,12 +5,15 @@ import { ICON_COLOR, ICON_NAME } from "../../constants/icon";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../types/navigationTypes";
+import { resetStore, useUserStore } from "../../store/login";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // 타입 정의
 type NavigationType = StackNavigationProp<RootStackParamList, "LoginScreen">;
 
 const SettingTab = () => {
   const navigation = useNavigation<NavigationType>();
+  const userStore = useUserStore.getState();
 
   // 전화 연결
   const callDomitoryOne = () => {
@@ -48,6 +51,12 @@ const SettingTab = () => {
     // TODO: 로그아웃 로직
 
     // 로그아웃 후 네비게이션 스택 리셋 및 LoginScreen으로 이동
+
+    resetStore();
+    // AsyncStorage.removeItem("userStore");
+
+    console.log("[Logout]userStore: ", userStore);
+
     navigation.dispatch(
       CommonActions.reset({
         index: 0,

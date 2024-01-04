@@ -13,3 +13,8 @@ export interface User {
   outStayToDt: string[];
   outStayStGbn: string[];
 }
+
+export interface AuthStore {
+  login: void;
+  logout: void;
+}
