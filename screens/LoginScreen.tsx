@@ -22,10 +22,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  function isPressedBtn() {
-    setIsPressed(!isPressed);
-  }
-
+  // 로그인 API 호출
   const onSubmitLoginForm = async () => {
     setIsPressed(true);
 
@@ -41,6 +38,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
       }
     } else {
       alert("아이디와 비밀번호를 입력해주세요.");
+      setIsPressed(false);
     }
   };
 
