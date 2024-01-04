@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { Appbar } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -34,7 +34,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Appbar.Header>
+        <Appbar.Header style={{ backgroundColor: "#fff" }}>
           <Appbar.Content title="외박 신청" />
           <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
@@ -44,6 +44,8 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
           initialRouteName="Home"
           activeColor="#252525"
           inactiveColor="#AEAEAE"
+          theme={{ colors: { secondaryContainer: "transperent" } }}
+          barStyle={styles.barStyle}
         >
           <Tab.Screen
             name="Notifications"
@@ -54,7 +56,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
                 <MaterialCommunityIcons
                   name={ICON_NAME.trophy}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
             }}
@@ -68,7 +70,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
                 <MaterialCommunityIcons
                   name={ICON_NAME.home}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
             }}
@@ -82,7 +84,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
                 <MaterialCommunityIcons
                   name={ICON_NAME.setting}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
             }}
@@ -115,7 +117,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
     justifyContent: "flex-end",
-    borderTopColor: "#B0B0B0",
+  },
+  barStyle: {
+    backgroundColor: "#fff",
+    borderTopColor: "#e8e8e8",
+    borderTopWidth: 2,
+    height: 100,
   },
 });
 

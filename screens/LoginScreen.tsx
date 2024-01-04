@@ -1,14 +1,13 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types/navigationTypes";
-import { Text, View, Image } from "react-native";
+import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH } from "../constants/style";
 import LoginInput from "../login/module/ui/LoginInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getLogin } from "../login/module/api/login";
 import { useUserStore } from "../store/login";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -23,11 +22,6 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
-  const userStore = useUserStore.getState();
-
-  useEffect(() => {
-    console.log("[BeforeLogin] userStore", userStore);
-  }, []);
 
   // 로그인 API 호출
   const onSubmitLoginForm = async () => {
