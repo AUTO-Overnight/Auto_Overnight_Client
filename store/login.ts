@@ -1,13 +1,29 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
+import { User } from '../login/module/interface/login';
 
-type Store = {
-  count: number
-  inc: () => void
-}
-
-export const useStore = create<Store>()((set) => ({
-  count: 1,
-  inc: () => set((state) => ({ count: state.count + 1 })),
-}))
-
-// mode, login 상태
+export const useUserStore = create<User>() (
+  persist (
+    (set) => ({
+      cookies: '',
+      name: '',
+      yy: '',
+      tmGbn: '',
+      outStayFrDt: [],
+      outStayToDt: [],
+      outStayStGbn: [],
+      setCookies: (cookies: string) => set(() => ({ cookies })),
+      setName: (name: string) => set(() => ({ name })),
+      setYy: (yy: string) => set(() => ({ yy })),
+      setTmGbn: (tmGbn: string) => set(() => ({ tmGbn })),
+      setOutStayFrDt: (outStayFrDt: string[]) => set(() => ({ outStayFrDt })),
+      setOutStayToDt: (outStayToDt: string[]) => set(() => ({ outStayToDt })),
+      setOutStayStGbn: (outStayStGbn: string[]) => set(() => ({ outStayStGbn })),
+      set: (newState) => set(state => ({ ...state, ...newState })),
+    }),
+    {
+      name: 'userStore',
+      getStorage: () => sessionStorage,
+    }
+  )
+)

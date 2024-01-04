@@ -1,7 +1,7 @@
 import client from "../../../api/client";
-import { User } from "../interface/login";
+import { Login } from "../interface/login";
 
-export const getLogin = async ({ id, password } : User) => {
+export const getLogin = async ({ id, password } : Login) => {
   id = encodeURIComponent(id);
   password = encodeURIComponent(password);
   

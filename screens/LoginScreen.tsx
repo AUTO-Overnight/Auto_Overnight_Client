@@ -7,6 +7,7 @@ import { SCREEN_WIDTH } from "../constants/style";
 import LoginInput from "../login/module/ui/LoginInput";
 import { useState } from "react";
 import { getLogin } from "../login/module/api/login";
+import { useUserStore } from "../store/login";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -21,6 +22,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [isPressed, setIsPressed] = useState(false);
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const userStore = useUserStore.getState();
 
   // 로그인 API 호출
   const onSubmitLoginForm = async () => {
@@ -29,8 +31,9 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
     if (id && password) {
       try {
         const response = await getLogin({ id, password });
-        console.log(response.data);
 
+        userStore.set(response.data);
+        console.log("[Login]userStore: ", userStore);
         navigation.navigate("FrameScreen");
       } catch (error: any) {
         alert(error.response.data.message);
