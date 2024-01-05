@@ -2,8 +2,18 @@ import { StyleSheet, View, Text, ScrollView, Linking } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ICON_COLOR, ICON_NAME } from "../../constants/icon";
+import { CommonActions, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../../types/navigationTypes";
+import { resetStore, useUserStore } from "../../store/login";
+
+// 타입 정의
+type NavigationType = StackNavigationProp<RootStackParamList, "LoginScreen">;
 
 const SettingTab = () => {
+  const navigation = useNavigation<NavigationType>();
+  const userStore = useUserStore.getState();
+
   // 전화 연결
   const callDomitoryOne = () => {
     Linking.openURL("tel:03180411030");
@@ -38,12 +48,24 @@ const SettingTab = () => {
   // 로그아웃 함수
   const logout = () => {
     // TODO: 로그아웃 로직
+
+    resetStore();
+
+    // 로그아웃 후 네비게이션 스택 리셋 및 LoginScreen으로 이동
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" }],
+      })
+    );
   };
 
   return (
     <ScrollView
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.container}>
+      contentContainerStyle={styles.container}
+      style={styles.backgroundContainer}
+    >
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>기숙사 전화 연결</Text>
         <View style={styles.contentView}>
@@ -124,6 +146,9 @@ const SettingTab = () => {
 };
 
 const styles = StyleSheet.create({
+  backgroundContainer: {
+    backgroundColor: "#fff",
+  },
   container: {
     width: SCREEN_WIDTH,
     gap: 20,

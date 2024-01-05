@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Appbar } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,10 +8,20 @@ import { SCREEN_WIDTH } from "../../constants/style";
 import { ICON_NAME } from "../../constants/icon";
 import SettingTab from "../tab/SettingTab";
 import BonusPointScreen from "../BonusPointScreen";
+import { RootStackParamList } from "../../types/navigationTypes";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const FrameScreen = () => {
+type LoginScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "LoginScreen"
+>;
+
+type LoginProps = {
+  navigation: LoginScreenNavigationProp;
+};
+
+const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [mode, setMode] = useState<string>(ICON_NAME.lightMode);
-  const [currentTab, setCurrentTab] = useState("Home");
 
   const _handleMode = () => {
     setMode(
@@ -21,53 +31,38 @@ const FrameScreen = () => {
 
   const Tab = createMaterialBottomTabNavigator();
 
-  let content;
-  switch (currentTab) {
-    case "Home":
-      content = <MainTab />;
-      break;
-    case "Notifications":
-      content = <BonusPointScreen />;
-      break;
-    case "Settings":
-      content = <SettingTab />;
-      break;
-    default:
-      content = <Text>...Loading</Text>;
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Appbar.Header>
-          <Appbar.Content title='외박 신청' />
+        <Appbar.Header style={styles.background}>
+          <Appbar.Content title="외박 신청" />
           <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
       </View>
-      <View style={styles.content}>{content}</View>
       <View style={styles.bottom}>
-        <Tab.Navigator initialRouteName='Home' activeColor='#e91e63'>
+        <Tab.Navigator
+          initialRouteName="Home"
+          activeColor="#252525"
+          inactiveColor="#AEAEAE"
+          theme={{ colors: { secondaryContainer: "transperent" } }}
+          barStyle={styles.barStyle}
+        >
           <Tab.Screen
-            name='Notifications'
-            component={MainTab}
+            name="Notifications"
+            component={BonusPointScreen}
             options={{
               tabBarLabel: "상점/벌점",
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
                   name={ICON_NAME.trophy}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
             }}
-            listeners={{
-              tabPress: (e) => {
-                setCurrentTab("Notifications");
-              },
-            }}
           />
           <Tab.Screen
-            name='Home'
+            name="Home"
             component={MainTab}
             options={{
               tabBarLabel: "외박 신청",
@@ -75,18 +70,13 @@ const FrameScreen = () => {
                 <MaterialCommunityIcons
                   name={ICON_NAME.home}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
             }}
-            listeners={{
-              tabPress: (e) => {
-                setCurrentTab("Home");
-              },
-            }}
           />
           <Tab.Screen
-            name='Settings'
+            name="Settings"
             component={SettingTab}
             options={{
               tabBarLabel: "설정",
@@ -94,14 +84,9 @@ const FrameScreen = () => {
                 <MaterialCommunityIcons
                   name={ICON_NAME.setting}
                   color={color}
-                  size={26}
+                  size={30}
                 />
               ),
-            }}
-            listeners={{
-              tabPress: (e) => {
-                setCurrentTab("Settings");
-              },
             }}
           />
         </Tab.Navigator>
@@ -115,10 +100,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   header: {
     width: SCREEN_WIDTH,
+  },
+  background: {
+    backgroundColor: "#fff",
   },
   content: {
     flex: 8,
@@ -132,7 +119,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
     justifyContent: "flex-end",
-    backgroundColor: "purple",
+  },
+  barStyle: {
+    backgroundColor: "#fff",
+    borderTopColor: "#e8e8e8",
+    borderTopWidth: 2,
+    height: 100,
   },
 });
 
