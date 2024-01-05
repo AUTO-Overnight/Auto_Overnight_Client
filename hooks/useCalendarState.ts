@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { RULES } from "../constants/rules";
+import { useUserStore } from "../store/login";
 
 type MarkedDate = {
   selected?: boolean;
@@ -13,6 +14,12 @@ type MarkedDates = {
   [date: string]: MarkedDate;
 };
 
+const mockOutStayFrDt = ["20240105", "20240110", "20240115"];
+
+const mockOutStayToDt = ["20240106", "20240112", "20240117"];
+
+const mockOutStayStGbn = ["1", "2", "1"];
+
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [dragMode, setDragMode] = useState<boolean>(false);
@@ -23,6 +30,21 @@ const useCalendarState = () => {
   );
   const [datesToMark, setDatesToMark] = useState<MarkedDates>({});
 
+  // 전역으로 저장되어있는 유저 정보 중 날짜 관련 정보를 가져옵니다.
+  const { name, yy, tmGbn, outStayFrDt, outStayToDt, outStayStGbn } =
+    useUserStore();
+
+  // 날짜 관련 정보를 가공합니다.
+  const convertDateFormat = (dates: string[]): string[] => {
+    return dates.map((date) => {
+      return `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(
+        6,
+        8
+      )}`;
+    });
+  };
+
+  // 날짜 관련 정보를 가공합니다.
   useEffect(() => {
     const today = new Date();
     const endDate = new Date(today);
@@ -33,6 +55,30 @@ const useCalendarState = () => {
       const dateString = d.toISOString().split("T")[0];
       newDatesToMark[dateString] = { selected: false };
     }
+
+    // Mock 데이터를 사용하여 특정 날짜를 초록색으로 표시
+    // const convertedOutStayFrDt = convertDateFormat(outStayFrDt);
+    // const convertedOutStayToDt = convertDateFormat(outStayToDt);
+    // 실제 데이터(상단) 테스트 데이터(하단)
+    const convertedOutStayFrDt = convertDateFormat(mockOutStayFrDt);
+    const convertedOutStayToDt = convertDateFormat(mockOutStayToDt);
+
+    convertedOutStayFrDt.forEach((startDate, index) => {
+      const endDate = convertedOutStayToDt[index];
+      // const outStayGbn = outStayStGbn[index];
+      // 실제 데이터(상단) 테스트 데이터(하단)
+      const outStayGbn = mockOutStayStGbn[index]; // 승인 상태
+      let start = new Date(startDate);
+      let end = new Date(endDate);
+
+      for (let day = start; day <= end; day.setDate(day.getDate() + 1)) {
+        const dayString = day.toISOString().split("T")[0];
+        newDatesToMark[dayString] = {
+          selected: true,
+          selectedColor: outStayGbn === "2" ? "green" : "yellow", // 승인 상태에 따라 색상 결정
+        };
+      }
+    });
 
     setDatesToMark(newDatesToMark);
   }, []);
