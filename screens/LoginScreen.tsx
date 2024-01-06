@@ -23,7 +23,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
-  // 로그인 API 호출
+  // 로그인 버튼 클릭 시 실행되는 함수
   const onSubmitLoginForm = async () => {
     setIsPressed(true);
 
@@ -68,6 +68,10 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
         >
           <Text>로그인</Text>
         </Button>
+
+        <Text style={styles.loginInfo}>
+          ※ 23:30 ~ 00:30 사이에는 로그인 오류가 있을 수 있습니다.
+        </Text>
       </View>
     </View>
   );
@@ -97,5 +101,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
     borderRadius: 5,
+  },
+  loginInfo: {
+    color: "#7b7b7b",
+    marginTop: 5,
+    marginHorizontal: 20,
   },
 });
