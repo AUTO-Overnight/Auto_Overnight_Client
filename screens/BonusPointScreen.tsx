@@ -29,6 +29,7 @@ const BonusPointScreen = () => {
                 <DataTable.Title>상/벌 구분</DataTable.Title>
                 <DataTable.Title numeric>점수</DataTable.Title>
                 <DataTable.Title numeric>일자</DataTable.Title>
+                <DataTable.Title numeric>상벌내용</DataTable.Title>
               </DataTable.Header>
 
               {bonus_dummy.map(item => (
@@ -39,6 +40,7 @@ const BonusPointScreen = () => {
                   <DataTable.Cell>{item.division}</DataTable.Cell>
                   <DataTable.Cell numeric>{item.score}</DataTable.Cell>
                   <DataTable.Cell numeric>{item.date}</DataTable.Cell>
+                  <DataTable.Cell numeric>{item.lifSstArdCtnt}</DataTable.Cell>
                 </DataTable.Row>
               ))}
             </DataTable>
