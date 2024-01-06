@@ -4,9 +4,9 @@ import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
 import { SCREEN_WIDTH } from "../constants/style";
-import LoginInput from "../login/module/ui/LoginInput";
+import LoginInput from "../src/user/ui/LoginInput";
 import { useState } from "react";
-import { getLogin } from "../login/module/api/login";
+import { getLogin } from "../src/user/module/api/login";
 import { useUserStore } from "../store/login";
 
 type LoginScreenNavigationProp = StackNavigationProp<

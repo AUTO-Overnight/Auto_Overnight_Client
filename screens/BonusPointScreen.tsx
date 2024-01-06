@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { DataTable, Text } from "react-native-paper";
 import { SafeAreaView, StyleSheet, TextStyle, View } from "react-native";
 import { bonus_dummy } from "../assets/bonus_dummy";
@@ -8,8 +8,48 @@ import {
   ScrollView,
 } from "react-native-gesture-handler";
 import { StatusBar } from "react-native";
+import { useUserStore } from "../store/login";
+import { getBonusPoint } from "../src/bonusPoint/api/bonusPoint";
+import { BonusPoint } from "../src/bonusPoint/interface/bonusPoint";
+
+// bonusPointData의 initialData 형식
+const bonusDataInitialData = {
+  cmpScr: [],
+  lifSstArdGbn: [],
+  ardInptDt: [],
+  lifSstArdCtnt: [],
+};
 
 const BonusPointScreen = () => {
+  // BonusPoint 데이터를 저장하는 state
+  const [bonusPointData, setBonusPointData] =
+    useState<BonusPoint>(bonusDataInitialData);
+
+  // 상벌점 데이터를 받아와서 저장하는 함수
+  const getBonusData = async () => {
+    try {
+      // useUserStore에서 name, cookies, year, semesterDivision을 가져오기
+      const { name, cookies, yy, tmGbn } = useUserStore.getState();
+
+      // 상벌점 데이터를 받아오기
+      const response = await getBonusPoint({
+        name,
+        cookies,
+        yy,
+        tmGbn,
+      });
+
+      setBonusPointData(response.data);
+      console.log("[BonusPoint] response: ", response.data);
+    } catch (error: any) {
+      console.log(error.response.data);
+    }
+  };
+
+  useEffect(() => {
+    // getBonusData();
+  }, []);
+
   // 벌점일 때 빨간색으로 바꿔주는 함수
   const getCellStyle = (lifSstArdGbn: number): TextStyle => {
     return lifSstArdGbn === 2 ? styles.penalty_color : styles.reward_color;
@@ -19,8 +59,8 @@ const BonusPointScreen = () => {
   function getTotalScore() {
     let totalScore = 0;
 
-    bonus_dummy.forEach(item => {
-      totalScore += item.cmpScr;
+    bonus_dummy.cmpScr.forEach(score => {
+      totalScore += Number(score);
     });
 
     return totalScore;
@@ -63,18 +103,23 @@ const BonusPointScreen = () => {
                 <DataTable.Title>일자</DataTable.Title>
               </DataTable.Header>
 
-              {bonus_dummy.map(item => (
+              {/* 배포에서는 bonus_dummy 대신 bonusPointData.cmpScr로 쓰기 */}
+              {bonus_dummy.cmpScr.map((item, index) => (
                 <DataTable.Row
-                  key={item.key}
-                  style={getCellStyle(item.lifSstArdGbn)}
+                  key={index}
+                  style={getCellStyle(Number(bonus_dummy.lifSstArdGbn))}
                 >
                   <DataTable.Cell>
-                    {getDivision(item.lifSstArdGbn)}
+                    {getDivision(Number(bonus_dummy.lifSstArdGbn[index]))}
                   </DataTable.Cell>
-                  <DataTable.Cell>{item.cmpScr}</DataTable.Cell>
-                  <DataTable.Cell>{item.lifSstArdCtnt}</DataTable.Cell>
+                  <DataTable.Cell>
+                    {Number(bonus_dummy.cmpScr[index])}
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    {bonus_dummy.lifSstArdCtnt[index]}
+                  </DataTable.Cell>
                   <DataTable.Cell style={styles.tableText}>
-                    {changeFormatDate(item.ardInptDt)}
+                    {changeFormatDate(Number(bonus_dummy.ardInptDt[index]))}
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}

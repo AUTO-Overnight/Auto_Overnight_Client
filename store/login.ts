@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { persist, PersistStorage } from 'zustand/middleware';
-import { User } from '../login/module/interface/login';
+import { User } from '../src/user/module/interface/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const resetStore = () => {
