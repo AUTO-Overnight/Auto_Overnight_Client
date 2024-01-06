@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { RULES } from "../constants/rules";
 import { useUserStore } from "../store/login";
+import { CALENDAR_COLORS } from "../constants/style";
 
 type MarkedDate = {
   selected?: boolean;
@@ -77,7 +78,10 @@ const useCalendarState = () => {
         const dayString = day.toISOString().split("T")[0];
         newDatesToMark[dayString] = {
           // selected: true, -> selected는 원형으로 색상을 표시하는 것이므로, selected를 사용하지 않습니다.
-          dotColor: outStayGbn === "2" ? "green" : "red", // 승인 상태에 따라 점의 색상 결정
+          dotColor:
+            outStayGbn === "2"
+              ? CALENDAR_COLORS.completed
+              : CALENDAR_COLORS.outstanding, // 승인 상태에 따라 점의 색상 결정
           marked: true, // 달력에 점 표시를 활성화
         };
       }
@@ -95,10 +99,10 @@ const useCalendarState = () => {
     // 여기서 미승인 = 신청 완료되고 승인 대기중인 상태
     const mark = datesToMark[day.dateString];
     if (mark && mark.marked) {
-      if (mark.dotColor === "green") {
+      if (mark.dotColor === CALENDAR_COLORS.completed) {
         Alert.alert("알림", "이미 승인 완료된 날짜입니다.");
         return;
-      } else if (mark.dotColor === "red") {
+      } else if (mark.dotColor === CALENDAR_COLORS.outstanding) {
         Alert.alert("알림", "신청 대기중인 날짜입니다.");
         return;
       }
