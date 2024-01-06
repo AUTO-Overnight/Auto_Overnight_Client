@@ -9,6 +9,6 @@ export const ROUTES = {
   defaultView: "외박 신청",
   scoreTab: "Notifications",
   scoreView: "상점 / 벌점",
-  settingTab: "Setting",
+  settingTab: "Settings",
   settingView: "설정",
 };
