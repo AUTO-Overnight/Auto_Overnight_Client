@@ -95,6 +95,11 @@ const useCalendarState = () => {
   };
 
   const handleDaySelect = (day: { dateString: string }) => {
+    // datesToMark에 날짜가 없는 경우 알림 처리
+    if (!datesToMark[day.dateString]) {
+      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
+      return;
+    }
     // datesToMark에 날짜가 있고, dotColor가 설정된 경우 알림 처리
     // 여기서 미승인 = 신청 완료되고 승인 대기중인 상태
     const mark = datesToMark[day.dateString];
