@@ -47,9 +47,9 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
       case ROUTES.defaultTab:
         return ROUTES.defaultView;
       case ROUTES.scoreTab:
-        return "상점/벌점";
-      case "Settings":
-        return "설정";
+        return ROUTES.scoreView;
+      case ROUTES.settingTab:
+        return ROUTES.settingView;
       default:
         return ROUTES.defaultView;
     }
@@ -71,10 +71,10 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
           theme={{ colors: { secondaryContainer: "transperent" } }}
           barStyle={styles.barStyle}>
           <Tab.Screen
-            name='Notifications'
+            name={ROUTES.scoreTab}
             component={BonusPointScreen}
             options={{
-              tabBarLabel: "상점/벌점",
+              tabBarLabel: ROUTES.scoreView,
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
                   name={ICON_NAME.trophy}
@@ -99,10 +99,10 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
             }}
           />
           <Tab.Screen
-            name='Settings'
+            name={ROUTES.settingTab}
             component={SettingTab}
             options={{
-              tabBarLabel: "설정",
+              tabBarLabel: ROUTES.settingView,
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
                   name={ICON_NAME.setting}
