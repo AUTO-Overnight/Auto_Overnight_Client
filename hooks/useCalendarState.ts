@@ -7,7 +7,9 @@ type MarkedDate = {
   selected?: boolean;
   disabled?: boolean;
   selectedColor?: string;
+  dotColor?: string;
   textColor?: string;
+  marked?: boolean;
 };
 
 type MarkedDates = {
@@ -74,8 +76,9 @@ const useCalendarState = () => {
       for (let day = start; day <= end; day.setDate(day.getDate() + 1)) {
         const dayString = day.toISOString().split("T")[0];
         newDatesToMark[dayString] = {
-          selected: true,
-          selectedColor: outStayGbn === "2" ? "green" : "yellow", // 승인 상태에 따라 색상 결정
+          // selected: true, -> selected는 원형으로 색상을 표시하는 것이므로, selected를 사용하지 않습니다.
+          dotColor: outStayGbn === "2" ? "green" : "red", // 승인 상태에 따라 점의 색상 결정
+          marked: true, // 달력에 점 표시를 활성화
         };
       }
     });
@@ -88,10 +91,20 @@ const useCalendarState = () => {
   };
 
   const handleDaySelect = (day: { dateString: string }) => {
-    if (!datesToMark[day.dateString]) {
-      Alert.alert("알림", "신청할 수 없는 날짜입니다.");
-      return;
+    // datesToMark에 날짜가 있고, dotColor가 설정된 경우 알림 처리
+    // 여기서 미승인 = 신청 완료되고 승인 대기중인 상태
+    const mark = datesToMark[day.dateString];
+    if (mark && mark.marked) {
+      if (mark.dotColor === "green") {
+        Alert.alert("알림", "이미 승인 완료된 날짜입니다.");
+        return;
+      } else if (mark.dotColor === "red") {
+        Alert.alert("알림", "신청 대기중인 날짜입니다.");
+        return;
+      }
     }
+
+    // 처리되지 않은 날짜 선택 로직 (기존 로직 유지)
     if (!selectedDates.includes(day.dateString)) {
       setSelectedDates([...selectedDates, day.dateString].sort());
     } else {
@@ -148,19 +161,18 @@ const useCalendarState = () => {
     const marked: MarkedDates = {};
 
     for (const date in datesToMark) {
+      // 기존 스타일을 유지하면서 새로운 속성만 추가합니다.
       marked[date] = { ...datesToMark[date] };
-    }
 
-    // 선택된 날짜에 특별한 스타일 적용
-    selectedDates.forEach((date) => {
-      if (marked[date]) {
+      // dotColor가 있는 경우, selectedColor를 적용하지 않습니다.
+      if (!datesToMark[date].dotColor) {
         marked[date] = {
           ...marked[date],
-          selected: true,
-          selectedColor: "blue",
+          selected: selectedDates.includes(date),
+          selectedColor: selectedDates.includes(date) ? "blue" : undefined,
         };
       }
-    });
+    }
 
     return marked;
   };
