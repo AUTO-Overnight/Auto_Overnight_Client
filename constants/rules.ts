@@ -3,3 +3,12 @@ export const RULES = {
     max: 45,
   },
 };
+
+export const ROUTES = {
+  defaultTab: "Home",
+  defaultView: "외박 신청",
+  scoreTab: "Notifications",
+  scoreView: "상점 / 벌점",
+  settingTab: "Setting",
+  settingView: "설정",
+};
