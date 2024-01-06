@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { DataTable, Text } from "react-native-paper";
 import { SafeAreaView, StyleSheet, TextStyle, View } from "react-native";
 import { bonus_dummy } from "../assets/bonus_dummy";
-import { SCREEN_WIDTH } from "../constants/style";
+import { BONUS_POINT_COLORS, SCREEN_WIDTH } from "../constants/style";
 import {
   GestureHandlerRootView,
   ScrollView,
@@ -138,12 +138,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
     paddingTop: StatusBar.currentHeight,
-    backgroundColor: "#fff",
+    backgroundColor: BONUS_POINT_COLORS.background,
   },
   header: {
     width: SCREEN_WIDTH,
     height: 150,
-    backgroundColor: "#f6f8ff",
+    backgroundColor: BONUS_POINT_COLORS.header,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
@@ -164,7 +164,6 @@ const styles = StyleSheet.create({
     color: "black",
   },
   penalty_color: {
-    // color: '#fff5f5'
-    backgroundColor: "#fff5f5",
+    backgroundColor: BONUS_POINT_COLORS.penalty,
   },
 });
