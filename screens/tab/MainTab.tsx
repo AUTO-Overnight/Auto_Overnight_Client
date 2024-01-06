@@ -43,6 +43,9 @@ const MainTab = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.modeView}>
+        <Text>{instructions}</Text>
+      </View>
       <Calendar
         onDayPress={_dayPressHandler}
         key={currentDate}
@@ -60,12 +63,10 @@ const MainTab = () => {
         <CustomButton title='오늘 날짜 보기' onPress={handleTodayPress} />
         <CustomButton title='외박 신청' onPress={handleApplyPress} />
       </View>
-      <View style={styles.modeView}>
-        <Text>{instructions}</Text>
-      </View>
       <View style={styles.modeSelector}>
         <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
       </View>
+
       {/* 모달 */}
       <ConfirmOvernightDatesModal
         selectedDates={selectedDates}
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "skyblue",
+    backgroundColor: "#E7EFFF",
   },
   modeSelector: {
     flex: 1,
