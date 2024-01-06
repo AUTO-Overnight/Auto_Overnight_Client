@@ -10,6 +10,11 @@ import SettingTab from "../tab/SettingTab";
 import BonusPointScreen from "../BonusPointScreen";
 import { RootStackParamList } from "../../types/navigationTypes";
 import { StackNavigationProp } from "@react-navigation/stack";
+import {
+  getFocusedRouteNameFromRoute,
+  RouteProp,
+} from "@react-navigation/native";
+import { ROUTES } from "../../constants/rules";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -18,9 +23,10 @@ type LoginScreenNavigationProp = StackNavigationProp<
 
 type LoginProps = {
   navigation: LoginScreenNavigationProp;
+  route: RouteProp<RootStackParamList, "FrameScreen">; // route 타입을 추가합니다.
 };
 
-const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
+const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
   const [mode, setMode] = useState<string>(ICON_NAME.lightMode);
 
   const _handleMode = () => {
@@ -31,24 +37,41 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
 
   const Tab = createMaterialBottomTabNavigator();
 
+  // Appbar.Content title을 현재 위치한 탭의 이름으로 변경하도록 설정하는 코드 작성
+  // TODO: any 제거
+  const getHeaderTitle = (route: any) => {
+    // 현재 포커스된 라우트 이름을 얻습니다.
+    const routeName = getFocusedRouteNameFromRoute(route) ?? ROUTES.defaultTab;
+
+    switch (routeName) {
+      case ROUTES.defaultTab:
+        return ROUTES.defaultView;
+      case ROUTES.scoreTab:
+        return "상점/벌점";
+      case "Settings":
+        return "설정";
+      default:
+        return ROUTES.defaultView;
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Appbar.Header style={styles.background}>
-          <Appbar.Content title="외박 신청" />
+        <Appbar.Header style={styles.background} mode='small'>
+          <Appbar.Content title={getHeaderTitle(route)} />
           <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
       </View>
       <View style={styles.bottom}>
         <Tab.Navigator
-          initialRouteName="Home"
-          activeColor="#252525"
-          inactiveColor="#AEAEAE"
+          initialRouteName={ROUTES.defaultTab}
+          activeColor='#252525'
+          inactiveColor='#AEAEAE'
           theme={{ colors: { secondaryContainer: "transperent" } }}
-          barStyle={styles.barStyle}
-        >
+          barStyle={styles.barStyle}>
           <Tab.Screen
-            name="Notifications"
+            name='Notifications'
             component={BonusPointScreen}
             options={{
               tabBarLabel: "상점/벌점",
@@ -62,10 +85,10 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
             }}
           />
           <Tab.Screen
-            name="Home"
+            name={ROUTES.defaultTab}
             component={MainTab}
             options={{
-              tabBarLabel: "외박 신청",
+              tabBarLabel: ROUTES.defaultView,
               tabBarIcon: ({ color }) => (
                 <MaterialCommunityIcons
                   name={ICON_NAME.home}
@@ -76,7 +99,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation }) => {
             }}
           />
           <Tab.Screen
-            name="Settings"
+            name='Settings'
             component={SettingTab}
             options={{
               tabBarLabel: "설정",
