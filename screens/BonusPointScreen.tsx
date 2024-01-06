@@ -107,7 +107,7 @@ const BonusPointScreen = () => {
               {bonus_dummy.cmpScr.map((item, index) => (
                 <DataTable.Row
                   key={index}
-                  style={getCellStyle(Number(bonus_dummy.lifSstArdGbn))}
+                  style={getCellStyle(Number(bonus_dummy.lifSstArdGbn[index]))}
                 >
                   <DataTable.Cell>
                     {getDivision(Number(bonus_dummy.lifSstArdGbn[index]))}
