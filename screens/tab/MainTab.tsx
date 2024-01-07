@@ -58,50 +58,54 @@ const MainTab = () => {
       ? dragStart
         ? "다중 선택 모드, 종료일을 선택해주세요"
         : "다중 선택 모드, 시작일을 선택해주세요"
-      : "일반 선택 모드, 1일씩 선택해주세요";
+      : "단일 선택 모드, 1일씩 선택해주세요";
 
   return (
     <View style={styles.container}>
-      <View style={styles.modeView}>
-        <Text>{instructions}</Text>
+      <View style={styles.helperView}>
+        <Text style={styles.helperText}>{instructions}</Text>
       </View>
-      <Calendar
-        onDayPress={_dayPressHandler}
-        key={currentDate}
-        current={currentDate}
-        markedDates={markedDates}
-        showSixWeeks
-        enableSwipeMonths
-        onMonthChange={handleMonthChange}
-      />
-      <View style={styles.buttonView}>
-        <CustomButton
-          title='초기화'
-          onPress={() => setSelectedDates([])}
-          titleColor='#1860B4'
-          buttonColor='none'
-          iconName='refresh'
-          iconColor='#1860B4'
-        />
-        <CustomButton
-          title='오늘 날짜 보기'
-          onPress={handleTodayPress}
-          titleColor='#1860B4'
-          buttonColor='none'
+      <View style={styles.calendarView}>
+        <Calendar
+          onDayPress={_dayPressHandler}
+          key={currentDate}
+          current={currentDate}
+          markedDates={markedDates}
+          showSixWeeks
+          enableSwipeMonths
+          onMonthChange={handleMonthChange}
         />
       </View>
-      <View style={styles.modeSelector}>
-        <SegmentedButtons
-          value={selectionMode}
-          onValueChange={setSelectionMode}
-          buttons={[
-            { label: "단일 선택", value: "single" },
-            { label: "다중 선택", value: "multiple" },
-          ]}
-        />
-      </View>
-      <View style={styles.submitView}>
-        <CustomButton title='신청하기' onPress={handleApplyPress} flex={1} />
+      <View style={styles.buttonContainer}>
+        <View style={styles.buttonView}>
+          <CustomButton
+            title='초기화'
+            onPress={() => setSelectedDates([])}
+            titleColor='#1860B4'
+            buttonColor='none'
+            iconName='refresh'
+            iconColor='#1860B4'
+          />
+          <CustomButton
+            title='오늘 날짜 보기'
+            onPress={handleTodayPress}
+            titleColor='#1860B4'
+            buttonColor='none'
+          />
+        </View>
+        <View style={styles.modeSelector}>
+          <SegmentedButtons
+            value={selectionMode}
+            onValueChange={setSelectionMode}
+            buttons={[
+              { label: "단일 선택", value: "single" },
+              { label: "다중 선택", value: "multiple" },
+            ]}
+          />
+        </View>
+        <View style={styles.submitView}>
+          <CustomButton title='신청하기' onPress={handleApplyPress} flex={1} />
+        </View>
       </View>
 
       {/* 모달 */}
@@ -121,6 +125,22 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
   },
+  helperView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#E7EFFF",
+  },
+  helperText: {
+    fontWeight: "bold",
+  },
+  calendarView: {
+    flex: 6,
+  },
+  buttonContainer: {
+    flex: 4,
+    justifyContent: "space-between",
+  },
   buttonView: {
     flex: 1,
     gap: 10,
@@ -128,12 +148,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 24,
     alignItems: "flex-start",
-  },
-  modeView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E7EFFF",
   },
   modeSelector: {
     flex: 1,
