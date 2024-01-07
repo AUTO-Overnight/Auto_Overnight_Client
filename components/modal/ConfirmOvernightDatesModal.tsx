@@ -6,7 +6,7 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-import { useUserStore } from "../../store/login";
+import { submitOvernightApplication } from "../../login/module/api/overnightApplication";
 
 type ConfirmOvernightDatesModalProps = {
   selectedDates: string[];
@@ -19,30 +19,8 @@ const ConfirmOvernightDatesModal = ({
   isModalVisible,
   closeModal,
 }: ConfirmOvernightDatesModalProps) => {
-  const convertDateFormat = (date: string) => {
-    return date.replace(/-/g, "");
-  };
-
-  const isWeekend = (date: string) => {
-    const dayOfWeek = new Date(date).getDay();
-    // 여기서 0은 일요일, 6은 토요일입니다.
-    return dayOfWeek === 0 || dayOfWeek === 6;
-  };
-
-  const confirmDates = () => {
-    const dateList = selectedDates.map(convertDateFormat);
-    const isWeekendList = selectedDates.map(isWeekend);
-
-    const cookies = useUserStore.getState().cookies;
-
-    const dataToSend = {
-      date_list: dateList,
-      is_weekend: isWeekendList.map(Number),
-      outStayApply: convertDateFormat(selectedDates[0]),
-      cookies: cookies,
-    };
-
-    console.log({ "신청 완료": dataToSend });
+  const confirmDates = async () => {
+    await submitOvernightApplication(selectedDates);
     closeModal();
   };
 
@@ -63,7 +41,6 @@ const ConfirmOvernightDatesModal = ({
             ))}
           </ScrollView>
           <View style={styles.buttonView}>
-            {/* TODO: 여기에 외박신청 API 연결 */}
             <Button title='신청하기' onPress={confirmDates} />
             <Button title='닫기' onPress={closeModal} />
           </View>
