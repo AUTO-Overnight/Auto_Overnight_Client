@@ -64,8 +64,7 @@ const SettingTab = () => {
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
-      style={styles.backgroundContainer}
-    >
+      style={styles.backgroundContainer}>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>기숙사 전화 연결</Text>
         <View style={styles.contentView}>
@@ -95,9 +94,21 @@ const SettingTab = () => {
         <Text style={styles.title}>문의하기</Text>
         <View style={styles.contentView}>
           <Text style={styles.content} onPress={goToSurvey}>
+            <MaterialCommunityIcons
+              name='format-list-bulleted'
+              color={ICON_COLOR.lightMode}
+              size={30}
+              style={styles.contentIcon}
+            />
             설문조사
           </Text>
           <Text style={styles.content} onPress={openKakaoTalk}>
+            <MaterialCommunityIcons
+              name='message-text'
+              color={ICON_COLOR.lightMode}
+              size={30}
+              style={styles.contentIcon}
+            />
             카카오톡
           </Text>
         </View>
@@ -123,7 +134,7 @@ const SettingTab = () => {
               size={30}
               style={styles.contentIcon}
             />
-            <Text style={styles.contentText}> 업데이트 내역</Text>
+            <Text style={styles.contentText}>업데이트 내역</Text>
           </Text>
         </View>
       </View>
@@ -147,30 +158,43 @@ const SettingTab = () => {
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: "#fff", // 밝은 배경
   },
   container: {
     width: SCREEN_WIDTH,
-    gap: 20,
-    backgroundColor: "#E0E0E0",
+    padding: 20, // 전체 패딩 적용
+    backgroundColor: "#F0F0F0", // 라이트 그레이 배경
   },
   settingMenuView: {
-    flex: 1,
     backgroundColor: "#fff",
-    padding: 10,
-    gap: 20,
+    padding: 15, // 상하좌우 패딩
+    marginBottom: 20, // 메뉴 간 간격
+    borderRadius: 10, // 모서리 둥글게
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
+    marginBottom: 15, // 제목 아래 간격
   },
   contentView: {
-    gap: 15,
-    paddingStart: 10,
+    paddingLeft: 5, // 좌측 패딩
   },
-  content: {},
-  contentIcon: {},
-  contentText: {},
+  content: {
+    flexDirection: "row", // 아이콘과 텍스트를 나란히
+    alignItems: "center", // 세로 중앙 정렬
+    marginBottom: 10, // 내용물 간 간격
+  },
+  contentIcon: {
+    marginRight: 10, // 아이콘과 텍스트 간 간격
+  },
+  contentText: {
+    fontSize: 16, // 적절한 텍스트 크기
+  },
 });
 
 export default SettingTab;

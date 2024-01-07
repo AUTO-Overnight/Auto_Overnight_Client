@@ -13,3 +13,9 @@ export const BONUS_POINT_COLORS = {
   header: "#f6f8ff",
   penalty: "#fff5f5",
 };
+
+export const CALENDAR_COLORS = {
+  outstanding: "orange",
+  selected: "blue",
+  completed: "green",
+};
