@@ -63,11 +63,19 @@ const MainTab = () => {
       />
       <View style={styles.buttonView}>
         <CustomButton
-          title='선택 전체 취소'
+          title='초기화'
           onPress={() => setSelectedDates([])}
+          titleColor='#1860B4'
+          buttonColor='none'
+          iconName='refresh'
+          iconColor='#1860B4'
         />
-        <CustomButton title='오늘 날짜 보기' onPress={handleTodayPress} />
-        <CustomButton title='외박 신청' onPress={handleApplyPress} />
+        <CustomButton
+          title='오늘 날짜 보기'
+          onPress={handleTodayPress}
+          titleColor='#1860B4'
+          buttonColor='none'
+        />
       </View>
       <View style={styles.modeSelector}>
         {/* <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} /> */}
@@ -79,6 +87,9 @@ const MainTab = () => {
             { label: "다중 선택", value: "multiple" },
           ]}
         />
+      </View>
+      <View style={styles.submitView}>
+        <CustomButton title='신청하기' onPress={handleApplyPress} flex={1} />
       </View>
 
       {/* 모달 */}
@@ -102,8 +113,9 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 10,
     flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+    alignItems: "flex-start",
   },
   modeView: {
     flex: 1,
@@ -117,6 +129,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 24,
   },
   modalView: {
     margin: 20,
@@ -141,5 +154,12 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
     marginHorizontal: 5,
     marginBottom: 10,
+  },
+  submitView: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
   },
 });
