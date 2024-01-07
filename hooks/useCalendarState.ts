@@ -17,11 +17,10 @@ type MarkedDates = {
   [date: string]: MarkedDate;
 };
 
-const mockOutStayFrDt = ["20240105", "20240110", "20240115"];
-
-const mockOutStayToDt = ["20240106", "20240112", "20240117"];
-
-const mockOutStayStGbn = ["1", "2", "1"];
+// 추후에 테스트할 때 주석 해제
+// const mockOutStayFrDt = ["20240105", "20240110", "20240115"];
+// const mockOutStayToDt = ["20240106", "20240112", "20240117"];
+// const mockOutStayStGbn = ["1", "2", "1"];
 
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -60,17 +59,17 @@ const useCalendarState = () => {
     }
 
     // Mock 데이터를 사용하여 특정 날짜를 초록색으로 표시
-    // const convertedOutStayFrDt = convertDateFormat(outStayFrDt);
-    // const convertedOutStayToDt = convertDateFormat(outStayToDt);
+    const convertedOutStayFrDt = convertDateFormat(outStayFrDt);
+    const convertedOutStayToDt = convertDateFormat(outStayToDt);
     // 실제 데이터(상단) 테스트 데이터(하단)
-    const convertedOutStayFrDt = convertDateFormat(mockOutStayFrDt);
-    const convertedOutStayToDt = convertDateFormat(mockOutStayToDt);
+    // const convertedOutStayFrDt = convertDateFormat(mockOutStayFrDt);
+    // const convertedOutStayToDt = convertDateFormat(mockOutStayToDt);
 
     convertedOutStayFrDt.forEach((startDate, index) => {
       const endDate = convertedOutStayToDt[index];
-      // const outStayGbn = outStayStGbn[index];
+      const outStayGbn = outStayStGbn[index]; // 승인 상태
       // 실제 데이터(상단) 테스트 데이터(하단)
-      const outStayGbn = mockOutStayStGbn[index]; // 승인 상태
+      // const outStayGbn = mockOutStayStGbn[index]; // 승인 상태
       let start = new Date(startDate);
       let end = new Date(endDate);
 
