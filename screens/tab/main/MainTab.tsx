@@ -1,7 +1,6 @@
 import { StyleSheet, View, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../../constants/style";
-import CustomButton from "../../../components/global/CustomButton";
-import useCalendarState from "../../../hooks/useCalendarState";
+import useCalendarState from "./hooks";
 import { useState } from "react";
 import ConfirmOvernightDatesModal from "../../../components/modal/ConfirmOvernightDatesModal";
 import { useStore } from "../../../store/store";

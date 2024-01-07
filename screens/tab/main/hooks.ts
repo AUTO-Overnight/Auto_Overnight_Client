@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { RULES } from "../constants/rules";
-import { useUserStore } from "../store/login";
-import { CALENDAR_COLORS } from "../constants/style";
+import { RULES } from "../../../constants/rules";
+import { useUserStore } from "../../../store/login";
+import { CALENDAR_COLORS } from "../../../constants/style";
 
 type MarkedDate = {
   selected?: boolean;
