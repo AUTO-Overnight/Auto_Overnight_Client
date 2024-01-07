@@ -1,5 +1,5 @@
-import client from "../../../api/client";
-import { Login } from "../interface/login";
+import client from "../../../../api/client";
+import { Login } from "../interface/user";
 
 export const getLogin = async ({ id, password } : Login) => {
   id = encodeURIComponent(id);

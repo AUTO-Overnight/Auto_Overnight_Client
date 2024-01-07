@@ -3,10 +3,10 @@ import { RootStackParamList } from "../types/navigationTypes";
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { StyleSheet } from "react-native";
-import { SCREEN_WIDTH } from "../constants/style";
-import LoginInput from "../login/module/ui/LoginInput";
+import { LOGIN_COLORS, SCREEN_WIDTH } from "../constants/style";
+import LoginInput from "../src/user/ui/LoginInput";
 import { useState } from "react";
-import { getLogin } from "../login/module/api/login";
+import { getLogin } from "../src/user/module/api/login";
 import { useUserStore } from "../store/login";
 
 type LoginScreenNavigationProp = StackNavigationProp<
@@ -62,7 +62,6 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
         <Button
           mode="contained"
           style={styles.buttonView}
-          buttonColor="#1F2937"
           loading={isPressed}
           onPress={onSubmitLoginForm}
         >
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: LOGIN_COLORS.background,
   },
   header: {
     flex: 1,
@@ -101,9 +100,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginVertical: 20,
     borderRadius: 5,
+    backgroundColor: LOGIN_COLORS.loginButton,
   },
   loginInfo: {
-    color: "#7b7b7b",
+    color: LOGIN_COLORS.loginInfo,
     marginTop: 5,
     marginHorizontal: 20,
   },

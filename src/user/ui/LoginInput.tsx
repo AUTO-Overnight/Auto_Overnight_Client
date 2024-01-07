@@ -1,5 +1,6 @@
-import { useState } from "react";
 import { TextInput } from "react-native-paper";
+import { LOGIN_COLORS } from "../../../constants/style";
+import { StyleSheet } from "react-native";
 
 interface LoginInputProps {
   inputType: "ID" | "PW";
@@ -21,10 +22,17 @@ export default function LoginInput({
       value={value}
       placeholder={inputType}
       onChangeText={onChangeText}
-      activeOutlineColor="#1F2937"
+      activeOutlineColor={LOGIN_COLORS.loginButton}
       secureTextEntry={isPassword}
-      style={{ marginVertical: 3, marginHorizontal: 20 }}
+      style={styles.textInput}
       left={<TextInput.Icon icon={iconName} />}
     />
   );
 }
+
+const styles = StyleSheet.create({
+  textInput: {
+    marginVertical: 3,
+    marginHorizontal: 20,
+  },
+});
