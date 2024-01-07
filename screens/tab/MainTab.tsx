@@ -5,6 +5,7 @@ import CustomButton from "../../components/global/CustomButton";
 import useCalendarState from "../../hooks/useCalendarState";
 import { useState } from "react";
 import ConfirmOvernightDatesModal from "../../components/modal/ConfirmOvernightDatesModal";
+import { SegmentedButtons } from "react-native-paper";
 
 const MainTab = () => {
   const {
@@ -23,23 +24,28 @@ const MainTab = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const handleApplyPress = () => {
-    setIsModalVisible(true);
-  };
+  const [selectionMode, setSelectionMode] = useState("single");
 
   const closeModal = () => {
     setIsModalVisible(false);
   };
 
-  const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
+  // const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
+  const _dayPressHandler =
+    selectionMode === "multiple" ? handleDragSelect : handleDaySelect;
 
   const markedDates = getMarkedDates();
 
-  const instructions = dragMode
-    ? dragStart
-      ? "다중 선택 모드, 종료일을 선택해주세요"
-      : "다중 선택 모드, 시작일을 선택해주세요"
-    : "일반 선택 모드, 1일씩 선택해주세요";
+  const handleApplyPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const instructions =
+    selectionMode === "multiple"
+      ? dragStart
+        ? "다중 선택 모드, 종료일을 선택해주세요"
+        : "다중 선택 모드, 시작일을 선택해주세요"
+      : "일반 선택 모드, 1일씩 선택해주세요";
 
   return (
     <View style={styles.container}>
@@ -64,7 +70,15 @@ const MainTab = () => {
         <CustomButton title='외박 신청' onPress={handleApplyPress} />
       </View>
       <View style={styles.modeSelector}>
-        <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} />
+        {/* <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} /> */}
+        <SegmentedButtons
+          value={selectionMode}
+          onValueChange={setSelectionMode}
+          buttons={[
+            { label: "단일 선택", value: "single" },
+            { label: "다중 선택", value: "multiple" },
+          ]}
+        />
       </View>
 
       {/* 모달 */}
