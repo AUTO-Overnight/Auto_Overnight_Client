@@ -36,7 +36,6 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
     setMode(
       mode === ICON_NAME.lightMode ? ICON_NAME.darkMode : ICON_NAME.lightMode
     );
-    console.log("mode: ", mode);
   };
 
   const Tab = createMaterialBottomTabNavigator();
