@@ -6,13 +6,27 @@ import useCalendarState from "../../hooks/useCalendarState";
 import { useState } from "react";
 import ConfirmOvernightDatesModal from "../../components/modal/ConfirmOvernightDatesModal";
 import { SegmentedButtons } from "react-native-paper";
+import { useStore } from "../../store/store";
 
 const MainTab = () => {
+  // 이런 느낌으로 다크모드/라이트모드에 따라 스타일을 동적으로 변경할 수 있습니다.
+  // const { isDarkMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
+
+  // const dynamicStyles = StyleSheet.create({
+  //   container: {
+  //     flex: 1,
+  //     width: SCREEN_WIDTH,
+  //     backgroundColor: isDarkMode ? "#000" : "#fff", // 다크모드에 따른 배경색 변경
+  //   },
+  //   text: {
+  //     color: isDarkMode ? "#fff" : "#000", // 다크모드에 따른 텍스트 색상 변경
+  //   },
+  //   // ... 기타 스타일
+  // });
+
   const {
     selectedDates,
     setSelectedDates,
-    dragMode,
-    toggleDragMode,
     dragStart,
     currentDate,
     getMarkedDates,
@@ -30,7 +44,6 @@ const MainTab = () => {
     setIsModalVisible(false);
   };
 
-  // const _dayPressHandler = dragMode ? handleDragSelect : handleDaySelect;
   const _dayPressHandler =
     selectionMode === "multiple" ? handleDragSelect : handleDaySelect;
 
@@ -78,7 +91,6 @@ const MainTab = () => {
         />
       </View>
       <View style={styles.modeSelector}>
-        {/* <CustomButton title={"선택 모드 변경"} onPress={toggleDragMode} /> */}
         <SegmentedButtons
           value={selectionMode}
           onValueChange={setSelectionMode}

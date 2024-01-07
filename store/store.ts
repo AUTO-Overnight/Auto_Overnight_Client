@@ -1,13 +1,13 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 type Store = {
-  count: number
-  inc: () => void
-}
+  isDarkMode: boolean;
+  toggleMode: () => void;
+};
 
-export const useStore = create<Store>()((set) => ({
-  count: 1,
-  inc: () => set((state) => ({ count: state.count + 1 })),
-}))
+export const useStore = create<Store>((set) => ({
+  isDarkMode: false, // 초기 다크모드 설정
+  toggleMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })), // 모드 전환 함수
+}));
 
 // mode, login 상태

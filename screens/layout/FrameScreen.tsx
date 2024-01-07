@@ -15,6 +15,7 @@ import {
   RouteProp,
 } from "@react-navigation/native";
 import { ROUTES } from "../../constants/rules";
+import { useStore } from "../../store/store";
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -27,12 +28,15 @@ type LoginProps = {
 };
 
 const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
-  const [mode, setMode] = useState<string>(ICON_NAME.lightMode);
+  const { toggleMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
+  const [mode, setMode] = useState(ICON_NAME.lightMode); // 초기 모드 상태 설정
 
   const _handleMode = () => {
+    toggleMode(); // 다크모드/라이트모드 상태 전환
     setMode(
       mode === ICON_NAME.lightMode ? ICON_NAME.darkMode : ICON_NAME.lightMode
     );
+    console.log("mode: ", mode);
   };
 
   const Tab = createMaterialBottomTabNavigator();
