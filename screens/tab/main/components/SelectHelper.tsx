@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 
-type HelperProps = {
+type SelectHelperProps = {
   text: string;
 };
 
-const Helper: React.FC<HelperProps> = ({ text }) => (
+const SelectHelper: React.FC<SelectHelperProps> = ({ text }) => (
   <View style={styles.view}>
     <Text style={styles.text}>{text}</Text>
   </View>
@@ -22,4 +22,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Helper;
+export default SelectHelper;

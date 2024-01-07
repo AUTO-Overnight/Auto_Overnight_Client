@@ -4,7 +4,7 @@ import useCalendarState from "./hooks";
 import { useState } from "react";
 import ConfirmOvernightDatesModal from "../../../components/modal/ConfirmOvernightDatesModal";
 import { useStore } from "../../../store/store";
-import Helper from "./components/Helper";
+import SelectHelper from "./components/SelectHelper";
 import CalendarView from "./components/Calendar";
 import ModeSelector from "./components/ModeSelector";
 import SelectionButtonGroup from "./components/SelectionButtonGroup";
@@ -81,7 +81,7 @@ const MainTab = () => {
 
   return (
     <View style={styles.container}>
-      <Helper text={instructions} />
+      <SelectHelper text={instructions} />
       <CalendarView
         onDayPress={_dayPressHandler}
         currentDate={currentDate}
