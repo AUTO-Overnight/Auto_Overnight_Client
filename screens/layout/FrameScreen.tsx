@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Appbar } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MainTab from "../tab/MainTab";
+import MainTab from "../tab/main/MainTab";
 import { SCREEN_WIDTH } from "../../constants/style";
 import { ICON_NAME } from "../../constants/icon";
 import SettingTab from "../tab/SettingTab";

@@ -1,12 +1,47 @@
 import { StyleSheet, View, Text } from "react-native";
-import { SCREEN_WIDTH } from "../../constants/style";
-import { Calendar } from "react-native-calendars";
-import CustomButton from "../../components/global/CustomButton";
-import useCalendarState from "../../hooks/useCalendarState";
+import { SCREEN_WIDTH } from "../../../constants/style";
+import CustomButton from "../../../components/global/CustomButton";
+import useCalendarState from "../../../hooks/useCalendarState";
 import { useState } from "react";
-import ConfirmOvernightDatesModal from "../../components/modal/ConfirmOvernightDatesModal";
-import { SegmentedButtons } from "react-native-paper";
-import { useStore } from "../../store/store";
+import ConfirmOvernightDatesModal from "../../../components/modal/ConfirmOvernightDatesModal";
+import { useStore } from "../../../store/store";
+import Helper from "./components/Helper";
+import CalendarView from "./components/Calendar";
+import ModeSelector from "./components/ModeSelector";
+
+const ButtonContainer = ({
+  onReset,
+  onTodayPress,
+  selectionMode,
+  setSelectionMode,
+  onSubmit,
+}: any) => (
+  <View style={styles.buttonContainer}>
+    <View style={styles.buttonView}>
+      <CustomButton
+        title='초기화'
+        onPress={onReset}
+        titleColor='#1860B4'
+        buttonColor='none'
+        iconName='refresh'
+        iconColor='#1860B4'
+      />
+      <CustomButton
+        title='오늘 날짜 보기'
+        onPress={onTodayPress}
+        titleColor='#1860B4'
+        buttonColor='none'
+      />
+    </View>
+    <ModeSelector
+      selectionMode={selectionMode}
+      setSelectionMode={setSelectionMode}
+    />
+    <View style={styles.submitView}>
+      <CustomButton title='신청하기' onPress={onSubmit} flex={1} />
+    </View>
+  </View>
+);
 
 const MainTab = () => {
   // 이런 느낌으로 다크모드/라이트모드에 따라 스타일을 동적으로 변경할 수 있습니다.
@@ -62,53 +97,22 @@ const MainTab = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.helperView}>
-        <Text style={styles.helperText}>{instructions}</Text>
-      </View>
-      <View style={styles.calendarView}>
-        <Calendar
-          onDayPress={_dayPressHandler}
-          key={currentDate}
-          current={currentDate}
-          markedDates={markedDates}
-          showSixWeeks
-          enableSwipeMonths
-          onMonthChange={handleMonthChange}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <View style={styles.buttonView}>
-          <CustomButton
-            title='초기화'
-            onPress={() => setSelectedDates([])}
-            titleColor='#1860B4'
-            buttonColor='none'
-            iconName='refresh'
-            iconColor='#1860B4'
-          />
-          <CustomButton
-            title='오늘 날짜 보기'
-            onPress={handleTodayPress}
-            titleColor='#1860B4'
-            buttonColor='none'
-          />
-        </View>
-        <View style={styles.modeSelector}>
-          <SegmentedButtons
-            value={selectionMode}
-            onValueChange={setSelectionMode}
-            buttons={[
-              { label: "단일 선택", value: "single" },
-              { label: "다중 선택", value: "multiple" },
-            ]}
-          />
-        </View>
-        <View style={styles.submitView}>
-          <CustomButton title='신청하기' onPress={handleApplyPress} flex={1} />
-        </View>
-      </View>
-
-      {/* 모달 */}
+      <Helper text={instructions} />
+      <CalendarView
+        onDayPress={_dayPressHandler}
+        currentDate={currentDate}
+        markedDates={markedDates}
+        onMonthChange={handleMonthChange}
+      />
+      {/* 달력 하단 버튼 모음 */}
+      <ButtonContainer
+        onReset={() => setSelectedDates([])}
+        onTodayPress={handleTodayPress}
+        selectionMode={selectionMode}
+        setSelectionMode={setSelectionMode}
+        onSubmit={handleApplyPress}
+      />
+      {/* 신청하기 버튼 상호작용 모달 */}
       <ConfirmOvernightDatesModal
         selectedDates={selectedDates}
         isModalVisible={isModalVisible}
@@ -125,18 +129,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: SCREEN_WIDTH,
   },
-  helperView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E7EFFF",
-  },
-  helperText: {
-    fontWeight: "bold",
-  },
-  calendarView: {
-    flex: 6,
-  },
   buttonContainer: {
     flex: 4,
     justifyContent: "space-between",
@@ -148,14 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 24,
     alignItems: "flex-start",
-  },
-  modeSelector: {
-    flex: 1,
-    gap: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 24,
   },
   modalView: {
     margin: 20,
