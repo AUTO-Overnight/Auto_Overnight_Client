@@ -29,6 +29,7 @@ export const submitOvernightApplication = async (
 
   try {
     const response = await client.post("/sendstayout", dataToSend);
+    return response.data;
     console.log(`API 응답: `, response.data);
   } catch (e) {
     console.error(`API 요청 Error: ${e}`);
