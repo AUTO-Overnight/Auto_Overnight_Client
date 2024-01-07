@@ -8,6 +8,8 @@ import { useStore } from "../../../store/store";
 import Helper from "./components/Helper";
 import CalendarView from "./components/Calendar";
 import ModeSelector from "./components/ModeSelector";
+import SelectionButtonGroup from "./components/SelectionButtonGroup";
+import SubmitButton from "./components/SubmitButton";
 
 const ButtonContainer = ({
   onReset,
@@ -17,29 +19,12 @@ const ButtonContainer = ({
   onSubmit,
 }: any) => (
   <View style={styles.buttonContainer}>
-    <View style={styles.buttonView}>
-      <CustomButton
-        title='초기화'
-        onPress={onReset}
-        titleColor='#1860B4'
-        buttonColor='none'
-        iconName='refresh'
-        iconColor='#1860B4'
-      />
-      <CustomButton
-        title='오늘 날짜 보기'
-        onPress={onTodayPress}
-        titleColor='#1860B4'
-        buttonColor='none'
-      />
-    </View>
+    <SelectionButtonGroup onReset={onReset} onTodayPress={onTodayPress} />
     <ModeSelector
       selectionMode={selectionMode}
       setSelectionMode={setSelectionMode}
     />
-    <View style={styles.submitView}>
-      <CustomButton title='신청하기' onPress={onSubmit} flex={1} />
-    </View>
+    <SubmitButton onSubmit={onSubmit} />
   </View>
 );
 
@@ -133,14 +118,6 @@ const styles = StyleSheet.create({
     flex: 4,
     justifyContent: "space-between",
   },
-  buttonView: {
-    flex: 1,
-    gap: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 24,
-    alignItems: "flex-start",
-  },
   modalView: {
     margin: 20,
     backgroundColor: "white",
@@ -164,12 +141,5 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
     marginHorizontal: 5,
     marginBottom: 10,
-  },
-  submitView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: 24,
   },
 });
