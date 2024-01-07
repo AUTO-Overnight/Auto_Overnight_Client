@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
-import { RULES } from "../constants/rules";
+import { RULES } from "../../../constants/rules";
+import { useUserStore } from "../../../store/login";
+import { CALENDAR_COLORS } from "../../../constants/style";
 
 type MarkedDate = {
   selected?: boolean;
   disabled?: boolean;
   selectedColor?: string;
+  dotColor?: string;
   textColor?: string;
+  marked?: boolean;
 };
 
 type MarkedDates = {
   [date: string]: MarkedDate;
 };
+
+// 추후에 테스트할 때 주석 해제
+// const mockOutStayFrDt = ["20240105", "20240110", "20240115"];
+// const mockOutStayToDt = ["20240106", "20240112", "20240117"];
+// const mockOutStayStGbn = ["1", "2", "1"];
 
 const useCalendarState = () => {
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
@@ -23,6 +32,21 @@ const useCalendarState = () => {
   );
   const [datesToMark, setDatesToMark] = useState<MarkedDates>({});
 
+  // 전역으로 저장되어있는 유저 정보 중 날짜 관련 정보를 가져옵니다.
+  const { name, yy, tmGbn, outStayFrDt, outStayToDt, outStayStGbn } =
+    useUserStore();
+
+  // 날짜 관련 정보를 가공합니다.
+  const convertDateFormat = (dates: string[]): string[] => {
+    return dates.map((date) => {
+      return `${date.substring(0, 4)}-${date.substring(4, 6)}-${date.substring(
+        6,
+        8
+      )}`;
+    });
+  };
+
+  // 날짜 관련 정보를 가공합니다.
   useEffect(() => {
     const today = new Date();
     const endDate = new Date(today);
@@ -34,6 +58,34 @@ const useCalendarState = () => {
       newDatesToMark[dateString] = { selected: false };
     }
 
+    // Mock 데이터를 사용하여 특정 날짜를 초록색으로 표시
+    const convertedOutStayFrDt = convertDateFormat(outStayFrDt);
+    const convertedOutStayToDt = convertDateFormat(outStayToDt);
+    // 실제 데이터(상단) 테스트 데이터(하단)
+    // const convertedOutStayFrDt = convertDateFormat(mockOutStayFrDt);
+    // const convertedOutStayToDt = convertDateFormat(mockOutStayToDt);
+
+    convertedOutStayFrDt.forEach((startDate, index) => {
+      const endDate = convertedOutStayToDt[index];
+      const outStayGbn = outStayStGbn[index]; // 승인 상태
+      // 실제 데이터(상단) 테스트 데이터(하단)
+      // const outStayGbn = mockOutStayStGbn[index]; // 승인 상태
+      let start = new Date(startDate);
+      let end = new Date(endDate);
+
+      for (let day = start; day <= end; day.setDate(day.getDate() + 1)) {
+        const dayString = day.toISOString().split("T")[0];
+        newDatesToMark[dayString] = {
+          // selected: true, -> selected는 원형으로 색상을 표시하는 것이므로, selected를 사용하지 않습니다.
+          dotColor:
+            outStayGbn === "2"
+              ? CALENDAR_COLORS.completed
+              : CALENDAR_COLORS.outstanding, // 승인 상태에 따라 점의 색상 결정
+          marked: true, // 달력에 점 표시를 활성화
+        };
+      }
+    });
+
     setDatesToMark(newDatesToMark);
   }, []);
 
@@ -42,10 +94,25 @@ const useCalendarState = () => {
   };
 
   const handleDaySelect = (day: { dateString: string }) => {
+    // datesToMark에 날짜가 없는 경우 알림 처리
     if (!datesToMark[day.dateString]) {
       Alert.alert("알림", "신청할 수 없는 날짜입니다.");
       return;
     }
+    // datesToMark에 날짜가 있고, dotColor가 설정된 경우 알림 처리
+    // 여기서 미승인 = 신청 완료되고 승인 대기중인 상태
+    const mark = datesToMark[day.dateString];
+    if (mark && mark.marked) {
+      if (mark.dotColor === CALENDAR_COLORS.completed) {
+        Alert.alert("알림", "이미 승인 완료된 날짜입니다.");
+        return;
+      } else if (mark.dotColor === CALENDAR_COLORS.outstanding) {
+        Alert.alert("알림", "신청 대기중인 날짜입니다.");
+        return;
+      }
+    }
+
+    // 처리되지 않은 날짜 선택 로직 (기존 로직 유지)
     if (!selectedDates.includes(day.dateString)) {
       setSelectedDates([...selectedDates, day.dateString].sort());
     } else {
@@ -102,19 +169,18 @@ const useCalendarState = () => {
     const marked: MarkedDates = {};
 
     for (const date in datesToMark) {
+      // 기존 스타일을 유지하면서 새로운 속성만 추가합니다.
       marked[date] = { ...datesToMark[date] };
-    }
 
-    // 선택된 날짜에 특별한 스타일 적용
-    selectedDates.forEach((date) => {
-      if (marked[date]) {
+      // dotColor가 있는 경우, selectedColor를 적용하지 않습니다.
+      if (!datesToMark[date].dotColor) {
         marked[date] = {
           ...marked[date],
-          selected: true,
-          selectedColor: "blue",
+          selected: selectedDates.includes(date),
+          selectedColor: selectedDates.includes(date) ? "blue" : undefined,
         };
       }
-    });
+    }
 
     return marked;
   };
