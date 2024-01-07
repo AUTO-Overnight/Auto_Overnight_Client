@@ -22,7 +22,7 @@ export const submitOvernightApplication = async (
   const dataToSend = {
     date_list: dateList,
     is_weekend: isWeekendList.map(Number),
-    outStayApply: convertDateFormat(selectedDates[0]),
+    outStayAplyDt: convertDateFormat(selectedDates[0]),
     cookies: cookie,
   };
   console.log(`API 요청 전 데이터: `, dataToSend);
