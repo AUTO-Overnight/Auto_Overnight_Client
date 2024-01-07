@@ -1,11 +1,11 @@
 import client from "../../../api/client";
-import { useUserStore } from "../../../store/login";
 
 // TODO: Define the type of the response
 type OvernightApplicationResponse = any;
 
 export const submitOvernightApplication = async (
-  selectedDates: string[]
+  selectedDates: string[],
+  cookie: string
 ): Promise<OvernightApplicationResponse> => {
   const convertDateFormat = (date: string): string => {
     return date.replace(/-/g, "");
@@ -18,15 +18,20 @@ export const submitOvernightApplication = async (
 
   const dateList = selectedDates.map(convertDateFormat);
   const isWeekendList = selectedDates.map(isWeekend);
-  const cookies = useUserStore.getState().cookies;
 
   const dataToSend = {
     date_list: dateList,
     is_weekend: isWeekendList.map(Number),
     outStayApply: convertDateFormat(selectedDates[0]),
-    cookies,
+    cookies: cookie,
   };
+  console.log(`API 요청 전 데이터: `, dataToSend);
 
-  console.log({ 외박신청: dataToSend });
-  return client.post("/sendstayout", dataToSend);
+  try {
+    const response = await client.post("/sendstayout", dataToSend);
+    console.log(`API 응답: `, response.data);
+  } catch (e) {
+    console.error(`API 요청 Error: ${e}`);
+    throw e;
+  }
 };

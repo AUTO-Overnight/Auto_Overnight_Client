@@ -7,6 +7,7 @@ import {
   Button,
 } from "react-native";
 import { submitOvernightApplication } from "../../login/module/api/overnightApplication";
+import { useUserStore } from "../../store/login";
 
 type ConfirmOvernightDatesModalProps = {
   selectedDates: string[];
@@ -20,8 +21,17 @@ const ConfirmOvernightDatesModal = ({
   closeModal,
 }: ConfirmOvernightDatesModalProps) => {
   const confirmDates = async () => {
-    await submitOvernightApplication(selectedDates);
-    closeModal();
+    try {
+      const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져옴
+      const appResponse = await submitOvernightApplication(
+        selectedDates,
+        userStore.cookies
+      ); // cookies를 인자로 전달
+      console.log("appResponse: ", appResponse);
+      closeModal();
+    } catch (e) {
+      console.error(`외박 신청 실패: ${e}`);
+    }
   };
 
   return (
