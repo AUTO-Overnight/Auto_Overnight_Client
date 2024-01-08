@@ -17,6 +17,13 @@ const CalendarView = ({
       showSixWeeks
       enableSwipeMonths
       onMonthChange={onMonthChange}
+      minDate={new Date().toISOString().split('T')[0]}
+      // maxDate를 오늘 날짜로부터 45일 뒤로 설정
+      maxDate={
+        new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 45)
+          .toISOString()
+          .split('T')[0]
+      }
     />
   </View>
 );
