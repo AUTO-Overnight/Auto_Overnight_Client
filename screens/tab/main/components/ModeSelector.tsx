@@ -32,7 +32,6 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
           },
         },
       ]}
-      theme={{ colors: { primary: '#E7EFFF' } }}
       style={{
         borderWidth: 1,
         borderRadius: 50,
