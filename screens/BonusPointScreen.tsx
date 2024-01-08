@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { DataTable, Text } from "react-native-paper";
 import { SafeAreaView, StyleSheet, TextStyle, View } from "react-native";
-import { bonus_dummy } from "../assets/bonus_dummy";
 import { BONUS_POINT_COLORS, SCREEN_WIDTH } from "../constants/style";
 import {
   GestureHandlerRootView,
@@ -47,7 +46,7 @@ const BonusPointScreen = () => {
   };
 
   useEffect(() => {
-    // getBonusData();
+    getBonusData();
   }, []);
 
   // 벌점일 때 빨간색으로 바꿔주는 함수
@@ -59,7 +58,7 @@ const BonusPointScreen = () => {
   function getTotalScore() {
     let totalScore = 0;
 
-    bonus_dummy.cmpScr.forEach(score => {
+    bonusPointData.cmpScr.forEach(score => {
       totalScore += Number(score);
     });
 
@@ -103,23 +102,24 @@ const BonusPointScreen = () => {
                 <DataTable.Title>일자</DataTable.Title>
               </DataTable.Header>
 
-              {/* 배포에서는 bonus_dummy 대신 bonusPointData.cmpScr로 쓰기 */}
-              {bonus_dummy.cmpScr.map((item, index) => (
+              {bonusPointData.cmpScr.map((item, index) => (
                 <DataTable.Row
                   key={index}
-                  style={getCellStyle(Number(bonus_dummy.lifSstArdGbn[index]))}
+                  style={getCellStyle(
+                    Number(bonusPointData.lifSstArdGbn[index])
+                  )}
                 >
                   <DataTable.Cell>
-                    {getDivision(Number(bonus_dummy.lifSstArdGbn[index]))}
+                    {getDivision(Number(bonusPointData.lifSstArdGbn[index]))}
                   </DataTable.Cell>
                   <DataTable.Cell>
-                    {Number(bonus_dummy.cmpScr[index])}
+                    {Number(bonusPointData.cmpScr[index])}
                   </DataTable.Cell>
                   <DataTable.Cell>
-                    {bonus_dummy.lifSstArdCtnt[index]}
+                    {bonusPointData.lifSstArdCtnt[index]}
                   </DataTable.Cell>
                   <DataTable.Cell style={styles.tableText}>
-                    {changeFormatDate(Number(bonus_dummy.ardInptDt[index]))}
+                    {changeFormatDate(Number(bonusPointData.ardInptDt[index]))}
                   </DataTable.Cell>
                 </DataTable.Row>
               ))}
