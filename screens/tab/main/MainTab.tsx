@@ -1,14 +1,14 @@
-import { StyleSheet, View, Text } from "react-native";
-import { SCREEN_WIDTH } from "../../../constants/style";
-import useCalendarState from "./hooks";
-import { useState } from "react";
-import ConfirmOvernightDatesModal from "./modal/ConfirmOvernightDatesModal";
-import { useStore } from "../../../store/store";
-import SelectHelper from "./components/SelectHelper";
-import CalendarView from "./components/Calendar";
-import ModeSelector from "./components/ModeSelector";
-import SelectionButtonGroup from "./components/SelectionButtonGroup";
-import SubmitButton from "./components/SubmitButton";
+import { StyleSheet, View } from 'react-native';
+import { SCREEN_WIDTH } from '../../../constants/style';
+import useCalendarState from './hooks';
+import { useState } from 'react';
+import ConfirmOvernightDatesModal from './modal/ConfirmOvernightDatesModal';
+// import { useStore } from '../../../store/store';
+import SelectHelper from './components/SelectHelper';
+import CalendarView from './components/Calendar';
+import ModeSelector from './components/ModeSelector';
+import SelectionButtonGroup from './components/SelectionButtonGroup';
+import SubmitButton from './components/SubmitButton';
 
 const ButtonContainer = ({
   onReset,
@@ -53,7 +53,6 @@ const MainTab = () => {
     setSelectedDates,
     dragStart,
     currentDate,
-    setDatesToMark,
     getMarkedDates,
     handleDaySelect,
     handleDragSelect,
@@ -65,7 +64,7 @@ const MainTab = () => {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [selectionMode, setSelectionMode] = useState("single");
+  const [selectionMode, setSelectionMode] = useState('single');
 
   const closeModal = () => {
     setSelectedDates([]);
@@ -74,7 +73,7 @@ const MainTab = () => {
   };
 
   const _dayPressHandler =
-    selectionMode === "multiple" ? handleDragSelect : handleDaySelect;
+    selectionMode === 'multiple' ? handleDragSelect : handleDaySelect;
 
   const markedDates = getMarkedDates();
 
@@ -83,11 +82,11 @@ const MainTab = () => {
   };
 
   const instructions =
-    selectionMode === "multiple"
+    selectionMode === 'multiple'
       ? dragStart
-        ? "다중 선택 모드, 종료일을 선택해주세요"
-        : "다중 선택 모드, 시작일을 선택해주세요"
-      : "단일 선택 모드, 1일씩 선택해주세요";
+        ? '다중 선택 모드, 종료일을 선택해주세요'
+        : '다중 선택 모드, 시작일을 선택해주세요'
+      : '단일 선택 모드, 1일씩 선택해주세요';
 
   return (
     <View style={styles.container}>
@@ -126,15 +125,15 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 4,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -145,10 +144,10 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
+    textAlign: 'center',
   },
   dateText: {
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
     marginHorizontal: 5,
     marginBottom: 10,
   },
