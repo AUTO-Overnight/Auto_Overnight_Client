@@ -22,19 +22,17 @@ const ConfirmOvernightDatesModal = ({
 }: ConfirmOvernightDatesModalProps) => {
   const confirmDates = async () => {
     try {
-      const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져옴
+      const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져
       const appResponse = await submitOvernightApplication(
         selectedDates,
         userStore.cookies
       ); // cookies를 인자로 전달
 
-      // useUserStore.setOutStayFrDt(appResponse.outStayFrDt);
       useUserStore.setState({ outStayFrDt: appResponse.outStayFrDt });
       useUserStore.setState({ outStayToDt: appResponse.outStayToDt });
       useUserStore.setState({ outStayStGbn: appResponse.outStayStGbn });
 
-      console.log("appResponse: ", appResponse);
-      console.log(useUserStore.getState());
+      console.log("appResponse: ", useUserStore.getState());
       closeModal();
     } catch (e) {
       console.error(`외박 신청 실패: ${e}`);
