@@ -4,15 +4,7 @@ import { User } from '../src/user/module/interface/user';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const resetStore = () => {
-  useUserStore.setState({
-    cookies: '',
-    name: '',
-    yy: '',
-    tmGbn: '',
-    outStayFrDt: [],
-    outStayToDt: [],
-    outStayStGbn: [],
-  }, true );
+  useUserStore.setState({}, true);
 };
 
 const storage: PersistStorage<User> = {
@@ -28,9 +20,8 @@ const storage: PersistStorage<User> = {
   },
 };
 
-
-export const useUserStore = create<User>() (
-  persist (
+export const useUserStore = create<User>()(
+  persist(
     (set) => ({
       cookies: '',
       name: '',
@@ -45,12 +36,13 @@ export const useUserStore = create<User>() (
       setTmGbn: (tmGbn: string) => set(() => ({ tmGbn })),
       setOutStayFrDt: (outStayFrDt: string[]) => set(() => ({ outStayFrDt })),
       setOutStayToDt: (outStayToDt: string[]) => set(() => ({ outStayToDt })),
-      setOutStayStGbn: (outStayStGbn: string[]) => set(() => ({ outStayStGbn })),
-      set: (newState) => set(() => ({ ...newState }))
+      setOutStayStGbn: (outStayStGbn: string[]) =>
+        set(() => ({ outStayStGbn })),
+      set: (newState) => set(() => ({ ...newState })),
     }),
     {
       name: 'userStore',
       storage,
-    }
-  )
-)
+    },
+  ),
+);

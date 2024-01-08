@@ -7,6 +7,7 @@ export const ICON_NAME = {
   shuttle: "bus-clock",
   update: "update",
   logout: "logout",
+  user: "account",
   trophy: "trophy-variant",
   home: "home",
   setting: "account-cog",

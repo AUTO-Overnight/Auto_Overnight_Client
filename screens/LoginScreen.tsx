@@ -1,17 +1,17 @@
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../types/navigationTypes";
-import { Text, View } from "react-native";
-import { Button } from "react-native-paper";
-import { StyleSheet } from "react-native";
-import { LOGIN_COLORS, SCREEN_WIDTH } from "../constants/style";
-import LoginInput from "../src/user/ui/LoginInput";
-import { useState } from "react";
-import { getLogin } from "../src/user/module/api/login";
-import { useUserStore } from "../store/login";
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../types/navigationTypes';
+import { Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
+import { StyleSheet } from 'react-native';
+import { LOGIN_COLORS, SCREEN_WIDTH } from '../constants/style';
+import LoginInput from '../src/user/ui/LoginInput';
+import { useEffect, useState } from 'react';
+import { getLogin } from '../src/user/module/api/login';
+import { resetStore, useUserStore } from '../store/login';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "LoginScreen"
+  'LoginScreen'
 >;
 
 type LoginProps = {
@@ -20,8 +20,12 @@ type LoginProps = {
 
 const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
   const [isPressed, setIsPressed] = useState(false);
-  const [id, setId] = useState("");
-  const [password, setPassword] = useState("");
+  const [id, setId] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    resetStore();
+  }, []);
 
   // 로그인 버튼 클릭 시 실행되는 함수
   const onSubmitLoginForm = async () => {
@@ -33,15 +37,15 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
 
         useUserStore.setState(response.data, true);
 
-        console.log("[Login] userStore", useUserStore.getState());
+        console.log('[Login] userStore', useUserStore.getState());
 
-        navigation.navigate("FrameScreen");
+        navigation.navigate('FrameScreen');
       } catch (error: any) {
         alert(error.response.data.message);
         setIsPressed(false);
       }
     } else {
-      alert("아이디와 비밀번호를 입력해주세요.");
+      alert('아이디와 비밀번호를 입력해주세요.');
       setIsPressed(false);
     }
   };
@@ -81,15 +85,15 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: LOGIN_COLORS.background,
   },
   header: {
     flex: 1,
     width: SCREEN_WIDTH,
-    alignItems: "center",
+    alignItems: 'center',
     marginTop: 50,
   },
   body: {

@@ -1,14 +1,14 @@
-import { StyleSheet, View, Text, ScrollView, Linking } from "react-native";
-import { SCREEN_WIDTH } from "../../constants/style";
-import { ICON_COLOR, ICON_NAME } from "../../constants/icon";
-import { CommonActions, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "../../types/navigationTypes";
-import { resetStore, useUserStore } from "../../store/login";
-import { Avatar, List } from "react-native-paper";
+import { StyleSheet, View, Text, ScrollView, Linking } from 'react-native';
+import { SCREEN_WIDTH } from '../../constants/style';
+import { ICON_COLOR, ICON_NAME } from '../../constants/icon';
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../types/navigationTypes';
+import { resetStore, useUserStore } from '../../store/login';
+import { Avatar, List } from 'react-native-paper';
 
 // 타입 정의
-type NavigationType = StackNavigationProp<RootStackParamList, "LoginScreen">;
+type NavigationType = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
 
 const SettingTab = () => {
   const navigation = useNavigation<NavigationType>();
@@ -16,28 +16,28 @@ const SettingTab = () => {
 
   // 전화 연결
   const callDomitoryOne = () => {
-    Linking.openURL("tel:03180411030");
+    Linking.openURL('tel:03180411030');
   };
 
   const callDomitoryTwo = () => {
-    Linking.openURL("tel:03180411020");
+    Linking.openURL('tel:03180411020');
   };
 
   // 설문조사 링크
   const goToSurvey = () => {
     Linking.openURL(
-      "https://the-form.io/forms/survey/response/10ea54f7-8e79-4efa-8593-d150ffdce4ec"
+      'https://the-form.io/forms/survey/response/10ea54f7-8e79-4efa-8593-d150ffdce4ec',
     );
   };
 
   // 카카오톡 오픈 채팅 링크
   const openKakaoTalk = () => {
-    Linking.openURL("https://open.kakao.com/o/sA4uughd");
+    Linking.openURL('https://open.kakao.com/o/sA4uughd');
   };
 
   // 셔틀 시간표 보기 링크
   const openBusTimetable = () => {
-    Linking.openURL("https://ibook.kpu.ac.kr/Viewer/bus01");
+    Linking.openURL('https://ibook.kpu.ac.kr/Viewer/bus01');
   };
 
   // 업데이트 내역 확인 함수
@@ -55,8 +55,8 @@ const SettingTab = () => {
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
-        routes: [{ name: "LoginScreen" }],
-      })
+        routes: [{ name: 'LoginScreen' }],
+      }),
     );
   };
 
@@ -70,12 +70,12 @@ const SettingTab = () => {
         <View style={styles.userView}>
           <Avatar.Icon
             size={24}
-            icon="account"
-            color={"white"}
-            style={{ backgroundColor: "#959595" }}
+            icon={ICON_NAME.user}
+            color={'white'}
+            style={styles.avatarIcon}
           />
           <Text style={styles.userText}>
-            <Text style={{ fontWeight: "bold" }}>{userStore.name}</Text>님, 좋은
+            <Text style={{ fontWeight: 'bold' }}>{userStore.name}</Text>님, 좋은
             하루되세요 ☀️
           </Text>
         </View>
@@ -168,27 +168,30 @@ const SettingTab = () => {
 
 const styles = StyleSheet.create({
   backgroundContainer: {
-    backgroundColor: "#fff", // 밝은 배경
+    backgroundColor: '#fff', // 밝은 배경
   },
   container: {
     width: SCREEN_WIDTH,
     padding: 20, // 전체 패딩 적용
-    backgroundColor: "#F0F0F0", // 라이트 그레이 배경
+    backgroundColor: '#F0F0F0', // 라이트 그레이 배경
   },
   settingMenuView: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
     padding: 15, // 상하좌우 패딩
     marginBottom: 20, // 메뉴 간 간격
     borderRadius: 10, // 모서리 둥글게
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
+  avatarIcon: {
+    backgroundColor: '#959595',
+  },
   title: {
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 15, // 제목 아래 간격
   },
   contentView: {
@@ -196,7 +199,7 @@ const styles = StyleSheet.create({
   },
   userView: {
     paddingLeft: 5, // 좌측 패딩
-    flexDirection: "row", // 아이콘과 텍스트를 나란히
+    flexDirection: 'row', // 아이콘과 텍스트를 나란히
   },
   userText: {
     fontSize: 16, // 적절한 텍스트 크기
@@ -204,8 +207,8 @@ const styles = StyleSheet.create({
     marginLeft: 10, // 아이콘과 텍스트 간 간격
   },
   content: {
-    flexDirection: "row", // 아이콘과 텍스트를 나란히
-    alignItems: "center", // 세로 중앙 정렬
+    flexDirection: 'row', // 아이콘과 텍스트를 나란히
+    alignItems: 'center', // 세로 중앙 정렬
     marginBottom: 10, // 내용물 간 간격
   },
   contentIcon: {
