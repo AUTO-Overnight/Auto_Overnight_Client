@@ -8,6 +8,9 @@ module.exports = {
   plugins: ['@typescript-eslint', 'react', 'prettier'],
   rules: {
     'prettier/prettier': 'error', // Prettier 규칙 위반을 ESLint 오류로 표시
+    'react/jsx-uses-react': 'off',
+    'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-explicit-any': 'off', // any 허용하려면 활성화하기
     // 기타 ESLint 규칙을 여기에 추가
   },
   settings: {
