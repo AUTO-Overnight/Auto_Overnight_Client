@@ -12,6 +12,7 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
         { label: "단일 선택", value: "single" },
         { label: "다중 선택", value: "multiple" },
       ]}
+      theme={{ colors: { primary: "#E7EFFF" } }}
     />
   </View>
 );

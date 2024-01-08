@@ -16,6 +16,7 @@ const ButtonContainer = ({
   selectionMode,
   setSelectionMode,
   onSubmit,
+  selectedDates,
 }: any) => (
   <View style={styles.buttonContainer}>
     <SelectionButtonGroup onReset={onReset} onTodayPress={onTodayPress} />
@@ -23,7 +24,7 @@ const ButtonContainer = ({
       selectionMode={selectionMode}
       setSelectionMode={setSelectionMode}
     />
-    <SubmitButton onSubmit={onSubmit} />
+    <SubmitButton onSubmit={onSubmit} disabled={selectedDates.length === 0} />
   </View>
 );
 
@@ -95,6 +96,7 @@ const MainTab = () => {
         selectionMode={selectionMode}
         setSelectionMode={setSelectionMode}
         onSubmit={handleApplyPress}
+        selectedDates={selectedDates}
       />
       {/* 신청하기 버튼 상호작용 모달 */}
       <ConfirmOvernightDatesModal

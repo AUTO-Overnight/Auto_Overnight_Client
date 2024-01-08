@@ -1,9 +1,20 @@
 import { StyleSheet, View } from "react-native";
 import CustomButton from "../../../../components/global/CustomButton";
 
-const SubmitButton = ({ onSubmit }: any) => (
+type SubmitButtonProps = {
+  onSubmit: () => void;
+  disabled: boolean;
+};
+
+const SubmitButton = ({ onSubmit, disabled }: SubmitButtonProps) => (
   <View style={styles.view}>
-    <CustomButton title='신청하기' onPress={onSubmit} flex={1} />
+    <CustomButton
+      title='신청하기'
+      onPress={!disabled ? onSubmit : undefined}
+      flex={1}
+      buttonColor={disabled ? "#ccc" : "black"} // disabled 상태에 따라 색상 변경
+      titleColor={disabled ? "#999" : "white"} // 글자 색상도 변경할 수 있습니다
+    />
   </View>
 );
 
