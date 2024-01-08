@@ -12,10 +12,6 @@ export interface User {
   outStayFrDt: string[];
   outStayToDt: string[];
   outStayStGbn: string[];
-  // 세터 함수 타입 정의 추가
-  setOutStayFrDt: (outStayFrDt: string[]) => void;
-  setOutStayToDt: (outStayToDt: string[]) => void;
-  setOutStayStGbn: (outStayStGbn: string[]) => void;
 }
 
 export interface AuthStore {

@@ -20,8 +20,6 @@ const ConfirmOvernightDatesModal = ({
   isModalVisible,
   closeModal,
 }: ConfirmOvernightDatesModalProps) => {
-  const { setOutStayFrDt, setOutStayToDt, setOutStayStGbn } = useUserStore();
-
   const confirmDates = async () => {
     try {
       const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져옴
@@ -30,9 +28,10 @@ const ConfirmOvernightDatesModal = ({
         userStore.cookies
       ); // cookies를 인자로 전달
 
-      setOutStayFrDt(appResponse.outStayFrDt);
-      setOutStayToDt(appResponse.outStayToDt);
-      setOutStayStGbn(appResponse.outStayStGbn);
+      // useUserStore.setOutStayFrDt(appResponse.outStayFrDt);
+      useUserStore.setState({ outStayFrDt: appResponse.outStayFrDt });
+      useUserStore.setState({ outStayToDt: appResponse.outStayToDt });
+      useUserStore.setState({ outStayStGbn: appResponse.outStayStGbn });
 
       console.log("appResponse: ", appResponse);
       console.log(useUserStore.getState());
@@ -45,22 +44,23 @@ const ConfirmOvernightDatesModal = ({
   return (
     <View style={styles.container}>
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={isModalVisible}
-        onRequestClose={closeModal}>
+        onRequestClose={closeModal}
+      >
         <View style={styles.modalView}>
           <Text style={styles.modalText}>해당 날짜에 신청하시겠습니까?</Text>
           <ScrollView>
-            {selectedDates.map((date) => (
+            {selectedDates.map(date => (
               <Text key={date} style={styles.dateText}>
                 {date}
               </Text>
             ))}
           </ScrollView>
           <View style={styles.buttonView}>
-            <Button title='신청하기' onPress={confirmDates} />
-            <Button title='닫기' onPress={closeModal} />
+            <Button title="신청하기" onPress={confirmDates} />
+            <Button title="닫기" onPress={closeModal} />
           </View>
         </View>
       </Modal>
