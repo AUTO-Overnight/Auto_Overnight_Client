@@ -6,8 +6,8 @@ import {
   ScrollView,
   Button,
 } from "react-native";
-import { submitOvernightApplication } from "../../login/module/api/overnightApplication";
-import { useUserStore } from "../../store/login";
+import { submitOvernightApplication } from "../api/overnightApplication";
+import { useUserStore } from "../../../../store/login";
 
 type ConfirmOvernightDatesModalProps = {
   selectedDates: string[];
@@ -20,6 +20,8 @@ const ConfirmOvernightDatesModal = ({
   isModalVisible,
   closeModal,
 }: ConfirmOvernightDatesModalProps) => {
+  const { setOutStayFrDt, setOutStayToDt, setOutStayStGbn } = useUserStore();
+
   const confirmDates = async () => {
     try {
       const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져옴
@@ -27,7 +29,13 @@ const ConfirmOvernightDatesModal = ({
         selectedDates,
         userStore.cookies
       ); // cookies를 인자로 전달
+
+      setOutStayFrDt(appResponse.outStayFrDt);
+      setOutStayToDt(appResponse.outStayToDt);
+      setOutStayStGbn(appResponse.outStayStGbn);
+
       console.log("appResponse: ", appResponse);
+      console.log(useUserStore.getState());
       closeModal();
     } catch (e) {
       console.error(`외박 신청 실패: ${e}`);
