@@ -76,7 +76,7 @@ const SettingTab = () => {
           />
           <Text style={styles.userText}>
             <Text style={{ fontWeight: "bold" }}>{userStore.name}</Text>님, 좋은
-            하루되세요!
+            하루되세요 ☀️
           </Text>
         </View>
       </View>
