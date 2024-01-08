@@ -5,9 +5,9 @@ import {
   View,
   ScrollView,
   Button,
-} from "react-native";
-import { submitOvernightApplication } from "../api/overnightApplication";
-import { useUserStore } from "../../../../store/login";
+} from 'react-native';
+import { submitOvernightApplication } from '../api/overnightApplication';
+import { useUserStore } from '../../../../store/login';
 
 type ConfirmOvernightDatesModalProps = {
   selectedDates: string[];
@@ -25,14 +25,14 @@ const ConfirmOvernightDatesModal = ({
       const userStore = useUserStore.getState(); // Zustand 스토어의 상태를 가져
       const appResponse = await submitOvernightApplication(
         selectedDates,
-        userStore.cookies
+        userStore.cookies,
       ); // cookies를 인자로 전달
 
       useUserStore.setState({ outStayFrDt: appResponse.outStayFrDt });
       useUserStore.setState({ outStayToDt: appResponse.outStayToDt });
       useUserStore.setState({ outStayStGbn: appResponse.outStayStGbn });
 
-      console.log("appResponse: ", useUserStore.getState());
+      console.log('appResponse: ', useUserStore.getState());
       closeModal();
     } catch (e) {
       console.error(`외박 신청 실패: ${e}`);
@@ -42,10 +42,11 @@ const ConfirmOvernightDatesModal = ({
   return (
     <View style={styles.container}>
       <Modal
-        animationType='slide'
+        animationType="slide"
         transparent={true}
         visible={isModalVisible}
-        onRequestClose={closeModal}>
+        onRequestClose={closeModal}
+      >
         <View style={styles.modalView}>
           <Text style={styles.modalText}>해당 날짜에 신청하시겠습니까?</Text>
           <ScrollView>
@@ -56,8 +57,8 @@ const ConfirmOvernightDatesModal = ({
             ))}
           </ScrollView>
           <View style={styles.buttonView}>
-            <Button title='신청하기' onPress={confirmDates} />
-            <Button title='닫기' onPress={closeModal} />
+            <Button title="신청하기" onPress={confirmDates} />
+            <Button title="닫기" onPress={closeModal} />
           </View>
         </View>
       </Modal>
@@ -69,16 +70,16 @@ export default ConfirmOvernightDatesModal;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     opacity: 0.5,
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -86,22 +87,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    height: "50%",
-    top: "25%",
+    height: '50%',
+    top: '25%',
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center",
+    textAlign: 'center',
   },
   dateText: {
-    backgroundColor: "orange",
+    backgroundColor: 'orange',
     marginHorizontal: 5,
     marginBottom: 10,
   },
   buttonView: {
     gap: 10,
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 });

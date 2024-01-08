@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from 'react-native';
 
 type SelectHelperProps = {
   text: string;
@@ -13,12 +13,12 @@ const SelectHelper: React.FC<SelectHelperProps> = ({ text }) => (
 const styles = StyleSheet.create({
   view: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#E7EFFF",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E7EFFF',
   },
   text: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
