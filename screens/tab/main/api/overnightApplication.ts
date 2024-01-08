@@ -1,4 +1,4 @@
-import client from "../../../api/client";
+import client from "../../../../api/client";
 
 // TODO: Define the type of the response
 type OvernightApplicationResponse = any;

@@ -2,7 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../../constants/style";
 import useCalendarState from "./hooks";
 import { useState } from "react";
-import ConfirmOvernightDatesModal from "../../../components/modal/ConfirmOvernightDatesModal";
+import ConfirmOvernightDatesModal from "./modal/ConfirmOvernightDatesModal";
 import { useStore } from "../../../store/store";
 import SelectHelper from "./components/SelectHelper";
 import CalendarView from "./components/Calendar";
@@ -16,6 +16,7 @@ const ButtonContainer = ({
   selectionMode,
   setSelectionMode,
   onSubmit,
+  selectedDates,
 }: any) => (
   <View style={styles.buttonContainer}>
     <SelectionButtonGroup onReset={onReset} onTodayPress={onTodayPress} />
@@ -23,9 +24,13 @@ const ButtonContainer = ({
       selectionMode={selectionMode}
       setSelectionMode={setSelectionMode}
     />
-    <SubmitButton onSubmit={onSubmit} />
+    <SubmitButton onSubmit={onSubmit} disabled={selectedDates.length === 0} />
   </View>
 );
+
+const resetSelectedDates = (setSelectedDates: any) => {
+  return () => setSelectedDates([]);
+};
 
 const MainTab = () => {
   // 이런 느낌으로 다크모드/라이트모드에 따라 스타일을 동적으로 변경할 수 있습니다.
@@ -48,6 +53,7 @@ const MainTab = () => {
     setSelectedDates,
     dragStart,
     currentDate,
+    setDatesToMark,
     getMarkedDates,
     handleDaySelect,
     handleDragSelect,
@@ -55,11 +61,15 @@ const MainTab = () => {
     handleMonthChange,
   } = useCalendarState();
 
+  const handleResetSelectedDates = resetSelectedDates(setSelectedDates);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [selectionMode, setSelectionMode] = useState("single");
 
   const closeModal = () => {
+    setSelectedDates([]);
+    getMarkedDates();
     setIsModalVisible(false);
   };
 
@@ -90,11 +100,12 @@ const MainTab = () => {
       />
       {/* 달력 하단 버튼 모음 */}
       <ButtonContainer
-        onReset={() => setSelectedDates([])}
+        onReset={handleResetSelectedDates}
         onTodayPress={handleTodayPress}
         selectionMode={selectionMode}
         setSelectionMode={setSelectionMode}
         onSubmit={handleApplyPress}
+        selectedDates={selectedDates}
       />
       {/* 신청하기 버튼 상호작용 모달 */}
       <ConfirmOvernightDatesModal
