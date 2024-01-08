@@ -190,6 +190,7 @@ const useCalendarState = () => {
     setSelectedDates,
     setCurrentDate,
     datesToMark,
+    setDatesToMark,
     dragMode,
     toggleDragMode,
     dragStart,

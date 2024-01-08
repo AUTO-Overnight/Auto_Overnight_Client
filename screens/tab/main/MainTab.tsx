@@ -28,6 +28,10 @@ const ButtonContainer = ({
   </View>
 );
 
+const resetSelectedDates = (setSelectedDates: any) => {
+  return () => setSelectedDates([]);
+};
+
 const MainTab = () => {
   // 이런 느낌으로 다크모드/라이트모드에 따라 스타일을 동적으로 변경할 수 있습니다.
   // const { isDarkMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
@@ -49,6 +53,7 @@ const MainTab = () => {
     setSelectedDates,
     dragStart,
     currentDate,
+    setDatesToMark,
     getMarkedDates,
     handleDaySelect,
     handleDragSelect,
@@ -56,11 +61,15 @@ const MainTab = () => {
     handleMonthChange,
   } = useCalendarState();
 
+  const handleResetSelectedDates = resetSelectedDates(setSelectedDates);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const [selectionMode, setSelectionMode] = useState("single");
 
   const closeModal = () => {
+    setSelectedDates([]);
+    getMarkedDates();
     setIsModalVisible(false);
   };
 
@@ -91,7 +100,7 @@ const MainTab = () => {
       />
       {/* 달력 하단 버튼 모음 */}
       <ButtonContainer
-        onReset={() => setSelectedDates([])}
+        onReset={handleResetSelectedDates}
         onTodayPress={handleTodayPress}
         selectionMode={selectionMode}
         setSelectionMode={setSelectionMode}
