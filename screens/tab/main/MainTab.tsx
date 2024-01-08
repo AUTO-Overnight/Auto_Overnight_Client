@@ -2,7 +2,7 @@ import { StyleSheet, View, Text } from "react-native";
 import { SCREEN_WIDTH } from "../../../constants/style";
 import useCalendarState from "./hooks";
 import { useState } from "react";
-import ConfirmOvernightDatesModal from "../../../components/modal/ConfirmOvernightDatesModal";
+import ConfirmOvernightDatesModal from "./modal/ConfirmOvernightDatesModal";
 import { useStore } from "../../../store/store";
 import SelectHelper from "./components/SelectHelper";
 import CalendarView from "./components/Calendar";
