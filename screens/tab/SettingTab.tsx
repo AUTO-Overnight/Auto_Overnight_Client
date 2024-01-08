@@ -5,7 +5,7 @@ import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../types/navigationTypes";
 import { resetStore, useUserStore } from "../../store/login";
-import { List } from "react-native-paper";
+import { Avatar, List } from "react-native-paper";
 
 // 타입 정의
 type NavigationType = StackNavigationProp<RootStackParamList, "LoginScreen">;
@@ -67,14 +67,22 @@ const SettingTab = () => {
       style={styles.backgroundContainer}
     >
       <View style={styles.settingMenuView}>
-        <Text style={styles.title}>사용자 정보</Text>
-        <View style={styles.contentView}>
-          <Text> {userStore.name} 님, 환영합니다.</Text>
+        <View style={styles.userView}>
+          <Avatar.Icon
+            size={24}
+            icon="account"
+            color={"white"}
+            style={{ backgroundColor: "#959595" }}
+          />
+          <Text style={styles.userText}>
+            <Text style={{ fontWeight: "bold" }}>{userStore.name}</Text>님, 좋은
+            하루되세요!
+          </Text>
         </View>
       </View>
       <View style={styles.settingMenuView}>
-        <Text style={styles.title}>문의하기</Text>
-        <List.Section style={{ margin: 5, marginVertical: -10 }}>
+        <Text style={styles.title}>기숙사 전화 연결</Text>
+        <List.Section style={styles.listContent}>
           <List.Item
             title="제 1 기숙사"
             onPress={callDomitoryOne}
@@ -99,7 +107,7 @@ const SettingTab = () => {
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>문의하기</Text>
-        <List.Section style={{ margin: 5, marginVertical: -10 }}>
+        <List.Section style={styles.listContent}>
           <List.Item
             title="설문조사"
             onPress={goToSurvey}
@@ -118,7 +126,7 @@ const SettingTab = () => {
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>ETC</Text>
-        <List.Section style={{ margin: 5, marginVertical: -10 }}>
+        <List.Section style={styles.listContent}>
           <List.Item
             title="셔틀버스 시간표 보기"
             onPress={openBusTimetable}
@@ -141,7 +149,7 @@ const SettingTab = () => {
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>계정</Text>
-        <List.Section style={{ margin: 5, marginVertical: -10 }}>
+        <List.Section style={styles.listContent}>
           <List.Item
             title="로그아웃"
             onPress={logout}
@@ -179,12 +187,21 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15, // 제목 아래 간격
   },
   contentView: {
     paddingLeft: 5, // 좌측 패딩
+  },
+  userView: {
+    paddingLeft: 5, // 좌측 패딩
+    flexDirection: "row", // 아이콘과 텍스트를 나란히
+  },
+  userText: {
+    fontSize: 16, // 적절한 텍스트 크기
+    marginTop: 2,
+    marginLeft: 10, // 아이콘과 텍스트 간 간격
   },
   content: {
     flexDirection: "row", // 아이콘과 텍스트를 나란히
@@ -194,8 +211,9 @@ const styles = StyleSheet.create({
   contentIcon: {
     marginRight: 10, // 아이콘과 텍스트 간 간격
   },
-  contentText: {
-    fontSize: 16, // 적절한 텍스트 크기
+  listContent: {
+    margin: 5,
+    marginVertical: -10,
   },
 });
 
