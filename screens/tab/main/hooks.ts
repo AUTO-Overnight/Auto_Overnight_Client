@@ -87,7 +87,7 @@ const useCalendarState = () => {
     });
 
     setDatesToMark(newDatesToMark);
-  }, []);
+  }, [outStayFrDt, outStayToDt, outStayStGbn]);
 
   const toggleDragMode = () => {
     setDragMode(!dragMode);
