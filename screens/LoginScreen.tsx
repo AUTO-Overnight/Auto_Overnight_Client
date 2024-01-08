@@ -42,6 +42,7 @@ const LoginScreen: React.FC<LoginProps> = ({ navigation }) => {
         navigation.navigate('FrameScreen');
       } catch (error: any) {
         alert(error.response.data.message);
+        console.log(error.response);
         setIsPressed(false);
       }
     } else {

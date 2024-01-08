@@ -13,7 +13,8 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
           label: '단일 선택',
           value: 'single',
           style: {
-            backgroundColor: selectionMode === 'single' ? '#C9DBFF' : '#fff',
+            backgroundColor:
+              selectionMode === 'single' ? '#C9DBFF' : 'transparent',
             borderColor: '#fff',
             borderTopRightRadius: 50,
             borderBottomRightRadius: 50,
@@ -23,7 +24,8 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
           label: '다중 선택',
           value: 'multiple',
           style: {
-            backgroundColor: selectionMode === 'multiple' ? '#C9DBFF' : '#fff',
+            backgroundColor:
+              selectionMode === 'multiple' ? '#C9DBFF' : 'transparent',
             borderColor: '#fff',
             borderTopLeftRadius: 50,
             borderBottomLeftRadius: 50,
@@ -35,6 +37,7 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
         borderWidth: 1,
         borderRadius: 50,
         borderColor: '#DEDEDE',
+        backgroundColor: 'transparent',
       }}
     />
   </View>
@@ -50,5 +53,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
+  },
+  pressed: {
+    backgroundColor: 'transparent', // 눌림 상태에서의 배경색을 투명하게 설정
   },
 });
