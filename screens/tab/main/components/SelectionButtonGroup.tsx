@@ -5,7 +5,7 @@ import CustomButton from "../../../../components/global/CustomButton";
 const SelectionButtonGroup = ({ onReset, onTodayPress }: any) => (
   <View style={styles.view}>
     <CustomButton
-      title='초기화'
+      title='선택 초기화'
       onPress={onReset}
       titleColor='#1860B4'
       buttonColor='none'
