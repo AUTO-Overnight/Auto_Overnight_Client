@@ -1,5 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { Calendar } from "react-native-calendars";
+import { StyleSheet, View } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 
 // TODO: 타입 정의
 const CalendarView = ({
