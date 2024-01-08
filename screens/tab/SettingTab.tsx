@@ -1,11 +1,11 @@
 import { StyleSheet, View, Text, ScrollView, Linking } from "react-native";
 import { SCREEN_WIDTH } from "../../constants/style";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { ICON_COLOR, ICON_NAME } from "../../constants/icon";
 import { CommonActions, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../types/navigationTypes";
 import { resetStore, useUserStore } from "../../store/login";
+import { Avatar, List } from "react-native-paper";
 
 // 타입 정의
 type NavigationType = StackNavigationProp<RootStackParamList, "LoginScreen">;
@@ -64,93 +64,103 @@ const SettingTab = () => {
     <ScrollView
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.container}
-      style={styles.backgroundContainer}>
+      style={styles.backgroundContainer}
+    >
       <View style={styles.settingMenuView}>
-        <Text style={styles.title}>기숙사 전화 연결</Text>
-        <View style={styles.contentView}>
-          {/* 전화 연결 */}
-          <Text style={styles.content} onPress={callDomitoryOne}>
-            <MaterialCommunityIcons
-              name={ICON_NAME.phone}
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            <Text> 제 1 기숙사</Text>
-          </Text>
-          {/* 전화 연결 */}
-          <Text style={styles.content} onPress={callDomitoryTwo}>
-            <MaterialCommunityIcons
-              name={ICON_NAME.phone}
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            <Text> 제 2 기숙사</Text>
+        <View style={styles.userView}>
+          <Avatar.Icon
+            size={24}
+            icon="account"
+            color={"white"}
+            style={{ backgroundColor: "#959595" }}
+          />
+          <Text style={styles.userText}>
+            <Text style={{ fontWeight: "bold" }}>{userStore.name}</Text>님, 좋은
+            하루되세요 ☀️
           </Text>
         </View>
+      </View>
+      <View style={styles.settingMenuView}>
+        <Text style={styles.title}>기숙사 전화 연결</Text>
+        <List.Section style={styles.listContent}>
+          <List.Item
+            title="제 1 기숙사"
+            onPress={callDomitoryOne}
+            left={() => (
+              <List.Icon
+                icon={ICON_NAME.phone}
+                color={ICON_COLOR.settingPrimary}
+              />
+            )}
+          />
+          <List.Item
+            title="제 2 기숙사"
+            onPress={callDomitoryTwo}
+            left={() => (
+              <List.Icon
+                icon={ICON_NAME.phone}
+                color={ICON_COLOR.settingPrimary}
+              />
+            )}
+          />
+        </List.Section>
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>문의하기</Text>
-        <View style={styles.contentView}>
-          <Text style={styles.content} onPress={goToSurvey}>
-            <MaterialCommunityIcons
-              name='format-list-bulleted'
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            설문조사
-          </Text>
-          <Text style={styles.content} onPress={openKakaoTalk}>
-            <MaterialCommunityIcons
-              name='message-text'
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            카카오톡
-          </Text>
-        </View>
+        <List.Section style={styles.listContent}>
+          <List.Item
+            title="설문조사"
+            onPress={goToSurvey}
+            left={() => (
+              <List.Icon icon={ICON_NAME.survey} color={ICON_COLOR.survey} />
+            )}
+          />
+          <List.Item
+            title="카카오톡"
+            onPress={openKakaoTalk}
+            left={() => (
+              <List.Icon icon={ICON_NAME.kakao} color={ICON_COLOR.kakao} />
+            )}
+          />
+        </List.Section>
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>ETC</Text>
-        <View style={styles.contentView}>
-          {/* 셔틀 시간표 */}
-          <Text style={styles.content} onPress={openBusTimetable}>
-            <MaterialCommunityIcons
-              name={ICON_NAME.shuttle}
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            <Text>셔틀 시간표 보기</Text>
-          </Text>
-          {/* 업데이트 보기 */}
-          <Text style={styles.content} onPress={checkUpdates}>
-            <MaterialCommunityIcons
-              name={ICON_NAME.update}
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            <Text style={styles.contentText}>업데이트 내역</Text>
-          </Text>
-        </View>
+        <List.Section style={styles.listContent}>
+          <List.Item
+            title="셔틀버스 시간표 보기"
+            onPress={openBusTimetable}
+            left={() => (
+              <List.Icon icon={ICON_NAME.shuttle} color={ICON_COLOR.shuttle} />
+            )}
+          />
+
+          <List.Item
+            title="업데이트 내역"
+            onPress={checkUpdates}
+            left={() => (
+              <List.Icon
+                icon={ICON_NAME.update}
+                color={ICON_COLOR.settingPrimary}
+              />
+            )}
+          />
+        </List.Section>
       </View>
       <View style={styles.settingMenuView}>
         <Text style={styles.title}>계정</Text>
-        <View style={styles.contentView}>
-          <Text style={styles.content} onPress={logout}>
-            <MaterialCommunityIcons
-              name={ICON_NAME.logout}
-              color={ICON_COLOR.lightMode}
-              size={30}
-              style={styles.contentIcon}
-            />
-            <Text> 로그아웃</Text>
-          </Text>
-        </View>
+        <List.Section style={styles.listContent}>
+          <List.Item
+            title="로그아웃"
+            onPress={logout}
+            left={() => (
+              <List.Icon
+                icon={ICON_NAME.logout}
+                color={ICON_COLOR.settingPrimary}
+              />
+            )}
+          />
+        </List.Section>
       </View>
     </ScrollView>
   );
@@ -177,12 +187,21 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   title: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 15, // 제목 아래 간격
   },
   contentView: {
     paddingLeft: 5, // 좌측 패딩
+  },
+  userView: {
+    paddingLeft: 5, // 좌측 패딩
+    flexDirection: "row", // 아이콘과 텍스트를 나란히
+  },
+  userText: {
+    fontSize: 16, // 적절한 텍스트 크기
+    marginTop: 2,
+    marginLeft: 10, // 아이콘과 텍스트 간 간격
   },
   content: {
     flexDirection: "row", // 아이콘과 텍스트를 나란히
@@ -192,8 +211,9 @@ const styles = StyleSheet.create({
   contentIcon: {
     marginRight: 10, // 아이콘과 텍스트 간 간격
   },
-  contentText: {
-    fontSize: 16, // 적절한 텍스트 크기
+  listContent: {
+    margin: 5,
+    marginVertical: -10,
   },
 });
 
