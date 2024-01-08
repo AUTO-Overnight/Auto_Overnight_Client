@@ -9,10 +9,33 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
       value={selectionMode}
       onValueChange={setSelectionMode}
       buttons={[
-        { label: '단일 선택', value: 'single' },
-        { label: '다중 선택', value: 'multiple' },
+        {
+          label: '단일 선택',
+          value: 'single',
+          style: {
+            backgroundColor: selectionMode === 'single' ? '#C9DBFF' : '#fff',
+            borderColor: '#fff',
+            borderTopRightRadius: 50,
+            borderBottomRightRadius: 50,
+          },
+        },
+        {
+          label: '다중 선택',
+          value: 'multiple',
+          style: {
+            backgroundColor: selectionMode === 'multiple' ? '#C9DBFF' : '#fff',
+            borderColor: '#fff',
+            borderTopLeftRadius: 50,
+            borderBottomLeftRadius: 50,
+          },
+        },
       ]}
       theme={{ colors: { primary: '#E7EFFF' } }}
+      style={{
+        borderWidth: 1,
+        borderRadius: 50,
+        borderColor: '#DEDEDE',
+      }}
     />
   </View>
 );
