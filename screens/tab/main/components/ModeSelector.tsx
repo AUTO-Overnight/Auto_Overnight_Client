@@ -32,12 +32,7 @@ const ModeSelector = ({ selectionMode, setSelectionMode }: any) => (
           },
         },
       ]}
-      style={{
-        borderWidth: 1,
-        borderRadius: 50,
-        borderColor: '#DEDEDE',
-        backgroundColor: 'transparent',
-      }}
+      style={styles.segmentButton}
     />
   </View>
 );
@@ -52,6 +47,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 24,
+  },
+  segmentButton: {
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: '#DEDEDE',
+    backgroundColor: 'transparent',
   },
   pressed: {
     backgroundColor: 'transparent', // 눌림 상태에서의 배경색을 투명하게 설정
