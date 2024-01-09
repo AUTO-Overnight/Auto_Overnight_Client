@@ -1,11 +1,13 @@
 import { StyleSheet, View, Text, ScrollView, Linking } from 'react-native';
-import { SCREEN_WIDTH } from '../../constants/style';
-import { ICON_COLOR, ICON_NAME } from '../../constants/icon';
+import { SCREEN_WIDTH } from '../../../constants/style';
+import { ICON_COLOR, ICON_NAME } from '../../../constants/icon';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../types/navigationTypes';
-import { resetStore, useUserStore } from '../../store/login';
+import { RootStackParamList } from '../../../types/navigationTypes';
+import { resetStore, useUserStore } from '../../../store/login';
 import { Avatar, List } from 'react-native-paper';
+import UpdateModal from './modal/UpdateModal';
+import { useState } from 'react';
 
 // 타입 정의
 type NavigationType = StackNavigationProp<RootStackParamList, 'LoginScreen'>;
@@ -40,11 +42,6 @@ const SettingTab = () => {
     Linking.openURL('https://ibook.kpu.ac.kr/Viewer/bus01');
   };
 
-  // 업데이트 내역 확인 함수
-  const checkUpdates = () => {
-    // TODO: 업데이트 내역 확인 로직
-  };
-
   // 로그아웃 함수
   const logout = () => {
     // TODO: 로그아웃 로직
@@ -58,6 +55,17 @@ const SettingTab = () => {
         routes: [{ name: 'LoginScreen' }],
       }),
     );
+  };
+
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false);
+
+  // 업데이트 내역 확인 함수
+  const showUpdateModal = () => {
+    setIsUpdateModalVisible(true);
+  };
+
+  const hideUpdateModal = () => {
+    setIsUpdateModalVisible(false);
   };
 
   return (
@@ -137,7 +145,7 @@ const SettingTab = () => {
 
           <List.Item
             title="업데이트 내역"
-            onPress={checkUpdates}
+            onPress={showUpdateModal}
             left={() => (
               <List.Icon
                 icon={ICON_NAME.update}
@@ -162,6 +170,7 @@ const SettingTab = () => {
           />
         </List.Section>
       </View>
+      <UpdateModal visible={isUpdateModalVisible} onClose={hideUpdateModal} />
     </ScrollView>
   );
 };
