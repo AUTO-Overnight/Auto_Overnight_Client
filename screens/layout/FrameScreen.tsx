@@ -1,40 +1,40 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { Appbar } from "react-native-paper";
-import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import MainTab from "../tab/main/MainTab";
-import { SCREEN_WIDTH } from "../../constants/style";
-import { ICON_NAME } from "../../constants/icon";
-import SettingTab from "../tab/SettingTab";
-import BonusPointScreen from "../BonusPointScreen";
-import { RootStackParamList } from "../../types/navigationTypes";
-import { StackNavigationProp } from "@react-navigation/stack";
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Appbar } from 'react-native-paper';
+import { createMaterialBottomTabNavigator } from 'react-native-paper/react-navigation';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MainTab from '../tab/main/MainTab';
+import { SCREEN_WIDTH } from '../../constants/style';
+import { ICON_NAME } from '../../constants/icon';
+import SettingTab from '../tab/setting/SettingTab';
+import BonusPointScreen from '../BonusPointScreen';
+import { RootStackParamList } from '../../types/navigationTypes';
+import { StackNavigationProp } from '@react-navigation/stack';
 import {
   getFocusedRouteNameFromRoute,
   RouteProp,
-} from "@react-navigation/native";
-import { ROUTES } from "../../constants/rules";
-import { useStore } from "../../store/store";
+} from '@react-navigation/native';
+import { ROUTES } from '../../constants/rules';
+import { useStore } from '../../store/store';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "LoginScreen"
+  'LoginScreen'
 >;
 
 type LoginProps = {
   navigation: LoginScreenNavigationProp;
-  route: RouteProp<RootStackParamList, "FrameScreen">; // route 타입을 추가합니다.
+  route: RouteProp<RootStackParamList, 'FrameScreen'>; // route 타입을 추가합니다.
 };
 
-const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
+const FrameScreen: React.FC<LoginProps> = ({ route }) => {
   const { toggleMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
   const [mode, setMode] = useState(ICON_NAME.lightMode); // 초기 모드 상태 설정
 
   const _handleMode = () => {
     toggleMode(); // 다크모드/라이트모드 상태 전환
     setMode(
-      mode === ICON_NAME.lightMode ? ICON_NAME.darkMode : ICON_NAME.lightMode
+      mode === ICON_NAME.lightMode ? ICON_NAME.darkMode : ICON_NAME.lightMode,
     );
   };
 
@@ -61,7 +61,7 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Appbar.Header style={styles.background} mode='small'>
+        <Appbar.Header style={styles.background} mode="small">
           <Appbar.Content title={getHeaderTitle(route)} />
           <Appbar.Action icon={mode} onPress={_handleMode} />
         </Appbar.Header>
@@ -69,10 +69,11 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
       <View style={styles.bottom}>
         <Tab.Navigator
           initialRouteName={ROUTES.defaultTab}
-          activeColor='#252525'
-          inactiveColor='#AEAEAE'
-          theme={{ colors: { secondaryContainer: "transperent" } }}
-          barStyle={styles.barStyle}>
+          activeColor="#252525"
+          inactiveColor="#AEAEAE"
+          theme={{ colors: { secondaryContainer: 'transperent' } }}
+          barStyle={styles.barStyle}
+        >
           <Tab.Screen
             name={ROUTES.scoreTab}
             component={BonusPointScreen}
@@ -124,31 +125,31 @@ const FrameScreen: React.FC<LoginProps> = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   header: {
     width: SCREEN_WIDTH,
   },
   background: {
-    backgroundColor: "#fff",
+    backgroundColor: '#fff',
   },
   content: {
     flex: 8,
     width: SCREEN_WIDTH,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: 10,
     paddingBottom: 20,
   },
   bottom: {
     flex: 1,
     width: SCREEN_WIDTH,
-    justifyContent: "flex-end",
+    justifyContent: 'flex-end',
   },
   barStyle: {
-    backgroundColor: "#fff",
-    borderTopColor: "#e8e8e8",
+    backgroundColor: '#fff',
+    borderTopColor: '#e8e8e8',
     borderTopWidth: 2,
     height: 100,
   },
