@@ -1,15 +1,15 @@
-import { useEffect, useState } from "react";
-import { DataTable, Text } from "react-native-paper";
-import { SafeAreaView, StyleSheet, TextStyle, View } from "react-native";
-import { BONUS_POINT_COLORS, SCREEN_WIDTH } from "../constants/style";
+import { useEffect, useState } from 'react';
+import { DataTable, Text } from 'react-native-paper';
+import { SafeAreaView, StyleSheet, TextStyle, View } from 'react-native';
+import { BONUS_POINT_COLORS, SCREEN_WIDTH } from '../constants/style';
 import {
   GestureHandlerRootView,
   ScrollView,
-} from "react-native-gesture-handler";
-import { StatusBar } from "react-native";
-import { useUserStore } from "../store/login";
-import { getBonusPoint } from "../src/bonusPoint/api/bonusPoint";
-import { BonusPoint } from "../src/bonusPoint/interface/bonusPoint";
+} from 'react-native-gesture-handler';
+import { StatusBar } from 'react-native';
+import { useUserStore } from '../store/login';
+import { getBonusPoint } from '../src/bonusPoint/api/bonusPoint';
+import { BonusPoint } from '../src/bonusPoint/interface/bonusPoint';
 
 // bonusPointData의 initialData 형식
 const bonusDataInitialData = {
@@ -39,7 +39,7 @@ const BonusPointScreen = () => {
       });
 
       setBonusPointData(response.data);
-      console.log("[BonusPoint] response: ", response.data);
+      console.log('[BonusPoint] response: ', response.data);
     } catch (error: any) {
       console.log(error.response.data);
     }
@@ -51,14 +51,14 @@ const BonusPointScreen = () => {
 
   // 벌점일 때 빨간색으로 바꿔주는 함수
   const getCellStyle = (lifSstArdGbn: number): TextStyle => {
-    return lifSstArdGbn === 2 ? styles.penalty_color : styles.reward_color;
+    return lifSstArdGbn === 2 ? styles.penaltyColor : styles.rewardColor;
   };
 
   // 상벌점 총점을 계산하는 함수
   function getTotalScore() {
     let totalScore = 0;
 
-    bonusPointData.cmpScr.forEach(score => {
+    bonusPointData.cmpScr.forEach((score) => {
       totalScore += Number(score);
     });
 
@@ -67,7 +67,7 @@ const BonusPointScreen = () => {
 
   // lifSstArdGbn이 1이면 상점, 2이면 벌점으로 바꿔주는 함수
   function getDivision(lifSstArdGbn: number) {
-    return lifSstArdGbn === 1 ? "상점" : "벌점";
+    return lifSstArdGbn === 1 ? '상점' : '벌점';
   }
 
   // changeFormatDate에서 일자가 1자리일 때 0을 붙여주는 함수
@@ -102,27 +102,33 @@ const BonusPointScreen = () => {
                 <DataTable.Title>일자</DataTable.Title>
               </DataTable.Header>
 
-              {bonusPointData.cmpScr.map((item, index) => (
-                <DataTable.Row
-                  key={index}
-                  style={getCellStyle(
-                    Number(bonusPointData.lifSstArdGbn[index])
-                  )}
-                >
-                  <DataTable.Cell>
-                    {getDivision(Number(bonusPointData.lifSstArdGbn[index]))}
-                  </DataTable.Cell>
-                  <DataTable.Cell>
-                    {Number(bonusPointData.cmpScr[index])}
-                  </DataTable.Cell>
-                  <DataTable.Cell>
-                    {bonusPointData.lifSstArdCtnt[index]}
-                  </DataTable.Cell>
-                  <DataTable.Cell style={styles.tableText}>
-                    {changeFormatDate(Number(bonusPointData.ardInptDt[index]))}
-                  </DataTable.Cell>
-                </DataTable.Row>
-              ))}
+              {bonusPointData.lifSstArdGbn.length !== 0 ? (
+                bonusPointData.cmpScr.map((item, index) => (
+                  <DataTable.Row
+                    key={index}
+                    style={getCellStyle(
+                      Number(bonusPointData.lifSstArdGbn[index]),
+                    )}
+                  >
+                    <DataTable.Cell>
+                      {getDivision(Number(bonusPointData.lifSstArdGbn[index]))}
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      {Number(bonusPointData.cmpScr[index])}
+                    </DataTable.Cell>
+                    <DataTable.Cell>
+                      {bonusPointData.lifSstArdCtnt[index]}
+                    </DataTable.Cell>
+                    <DataTable.Cell style={styles.tableText}>
+                      {changeFormatDate(
+                        Number(bonusPointData.ardInptDt[index]),
+                      )}
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))
+              ) : (
+                <Text style={styles.noDataText}>상벌점 내역이 없습니다.</Text>
+              )}
             </DataTable>
           </View>
         </ScrollView>
@@ -144,8 +150,8 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     height: 150,
     backgroundColor: BONUS_POINT_COLORS.header,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 10,
   },
   totalScoreView: {
@@ -154,16 +160,21 @@ const styles = StyleSheet.create({
   bonusView: {
     flex: 1,
     width: SCREEN_WIDTH,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tableText: {
-    justifyContent: "center",
+    justifyContent: 'center',
   },
-  reward_color: {
-    color: "black",
+  rewardColor: {
+    color: 'black',
   },
-  penalty_color: {
+  penaltyColor: {
     backgroundColor: BONUS_POINT_COLORS.penalty,
+  },
+  noDataText: {
+    textAlign: 'center',
+    color: 'gray',
+    marginTop: 20,
   },
 });

@@ -78,9 +78,9 @@ const SettingTab = () => {
         <View style={styles.userView}>
           <Avatar.Icon
             size={24}
-            icon="account"
+            icon={ICON_NAME.user}
             color={'white'}
-            style={{ backgroundColor: '#959595' }}
+            style={styles.avatarIcon}
           />
           <Text style={styles.userText}>
             <Text style={{ fontWeight: 'bold' }}>{userStore.name}</Text>님, 좋은
@@ -194,6 +194,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
+  },
+  avatarIcon: {
+    backgroundColor: '#959595',
   },
   title: {
     fontSize: 20,
