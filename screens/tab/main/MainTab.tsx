@@ -3,7 +3,7 @@ import { SCREEN_WIDTH } from '../../../constants/style';
 import useCalendarState from './hooks';
 import { useState } from 'react';
 import ConfirmOvernightDatesModal from './modal/ConfirmOvernightDatesModal';
-// import { useStore } from '../../../store/store';
+import { useModeStore } from '../../../store/mode';
 import SelectHelper from './components/SelectHelper';
 import CalendarView from './components/Calendar';
 import ModeSelector from './components/ModeSelector';
@@ -33,20 +33,38 @@ const resetSelectedDates = (setSelectedDates: any) => {
 };
 
 const MainTab = () => {
-  // 이런 느낌으로 다크모드/라이트모드에 따라 스타일을 동적으로 변경할 수 있습니다.
-  // const { isDarkMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
+  const { isDarkMode } = useModeStore(); // Zustand 스토어에서 toggleMode 가져오기
 
-  // const dynamicStyles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     width: SCREEN_WIDTH,
-  //     backgroundColor: isDarkMode ? "#000" : "#fff", // 다크모드에 따른 배경색 변경
-  //   },
-  //   text: {
-  //     color: isDarkMode ? "#fff" : "#000", // 다크모드에 따른 텍스트 색상 변경
-  //   },
-  //   // ... 기타 스타일
-  // });
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      width: SCREEN_WIDTH,
+      backgroundColor: isDarkMode ? '#000' : '#fff',
+    },
+    buttonContainer: {
+      flex: 4,
+      justifyContent: 'space-between',
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: isDarkMode ? '#333333' : 'white',
+      borderRadius: 20,
+      padding: 35,
+      alignItems: 'center',
+      shadowColor: isDarkMode ? '#FFFFFF' : '#000000',
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: 'center',
+      color: isDarkMode ? '#FFFFFF' : '#000000',
+    },
+    dateText: {
+      backgroundColor: isDarkMode ? '#FFA500' : 'orange',
+      marginHorizontal: 5,
+      marginBottom: 10,
+    },
+    // 기타 스타일 정의
+  });
 
   const {
     selectedDates,
@@ -89,7 +107,7 @@ const MainTab = () => {
       : '단일 선택 모드, 1일씩 선택해주세요';
 
   return (
-    <View style={styles.container}>
+    <View style={dynamicStyles.container}>
       <SelectHelper text={instructions} />
       <CalendarView
         onDayPress={_dayPressHandler}
@@ -97,7 +115,6 @@ const MainTab = () => {
         markedDates={markedDates}
         onMonthChange={handleMonthChange}
       />
-      {/* 달력 하단 버튼 모음 */}
       <ButtonContainer
         onReset={handleResetSelectedDates}
         onTodayPress={handleTodayPress}
@@ -106,7 +123,6 @@ const MainTab = () => {
         onSubmit={handleApplyPress}
         selectedDates={selectedDates}
       />
-      {/* 신청하기 버튼 상호작용 모달 */}
       <ConfirmOvernightDatesModal
         selectedDates={selectedDates}
         isModalVisible={isModalVisible}

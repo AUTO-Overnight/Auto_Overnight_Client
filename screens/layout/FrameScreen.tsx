@@ -15,7 +15,7 @@ import {
   RouteProp,
 } from '@react-navigation/native';
 import { ROUTES } from '../../constants/rules';
-import { useStore } from '../../store/store';
+import { useModeStore } from '../../store/mode';
 
 type LoginScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -28,7 +28,7 @@ type LoginProps = {
 };
 
 const FrameScreen: React.FC<LoginProps> = ({ route }) => {
-  const { toggleMode } = useStore(); // Zustand 스토어에서 toggleMode 가져오기
+  const { toggleMode } = useModeStore(); // Zustand 스토어에서 toggleMode 가져오기
   const [mode, setMode] = useState(ICON_NAME.lightMode); // 초기 모드 상태 설정
 
   const _handleMode = () => {
